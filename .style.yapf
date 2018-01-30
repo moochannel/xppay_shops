@@ -1,0 +1,5 @@
+[style]
+column_limit = 99
+based_on_style = google
+dedent_closing_brackets = false
+split_before_first_argument = true
