@@ -1,2 +1,4 @@
 Django
 social-auth-app-django
+pyyaml
+django-material
