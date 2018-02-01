@@ -19,7 +19,7 @@
     <div class="col s12 m4">
       <div class="card hoverable">
         <div class="card-image blue-grey darken-1 waves-effect waves-block waves-light">
-          <img src="{% static 'shops/xp-man-1.png' %}" alt="{{ shop.name }}" clas="activator">
+          <a href="{% url 'shop_detail' pk=shop.pk %}"><img src="{% static 'shops/xp-man-1.png' %}" alt="{{ shop.name }}" clas="activator"></a>
         </div>
         <div class="card-content activator">
           <span class="card-title activator">{{ shop.name }}<i class="material-icons right">more_vert</i></span>

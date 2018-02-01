@@ -1,0 +1,34 @@
+{% extends "shops/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="carousel carousel-slider" data-indicators="true" style="height: 400px">
+  <div class="carousel-item blue-grey darken-1 center">
+    <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">
+  </div>
+  <div class="carousel-item blue-grey darken-1 center">
+    <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">
+  </div>
+  <div class="carousel-item blue-grey darken-1 center">
+    <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">
+  </div>
+</div>
+<h5>{{ object.name }}</h5>
+<p>{{ object.business_description }}</p>
+<table class="striped">
+  {% for contact in object.contact_set.all %}
+  <tr>
+    <td class="right">{{ contact.contact_type.name }}</td>
+    <td>{% if contact.href %}<a href="{{ contact.href }}">{% endif %}{{ contact.label }}{% if contact.href %}</a>{% endif %}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+
+{% block footjs %}
+<script>
+  $(document).ready(function(){
+    $('.carousel.carousel-slider').carousel({fullWidth: true, indicators: true});
+  });
+</script>
+{% endblock %}
