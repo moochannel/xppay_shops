@@ -1,0 +1,45 @@
+- model: shops.Area
+  pk: 1
+  fields:
+    name: 北海道
+    list_order: 1
+- model: shops.Area
+  pk: 2
+  fields:
+    name: 東北地方
+    list_order: 2
+- model: shops.Area
+  pk: 3
+  fields:
+    name: 関東地方
+    list_order: 3
+- model: shops.Area
+  pk: 4
+  fields:
+    name: 中部地方
+    list_order: 4
+- model: shops.Area
+  pk: 5
+  fields:
+    name: 近畿地方
+    list_order: 5
+- model: shops.Area
+  pk: 6
+  fields:
+    name: 中国地方
+    list_order: 6
+- model: shops.Area
+  pk: 7
+  fields:
+    name: 九州地方
+    list_order: 7
+- model: shops.Area
+  pk: 8
+  fields:
+    name: 沖縄
+    list_order: 8
+- model: shops.Area
+  pk: 9
+  fields:
+    name: 海外
+    list_order: 20

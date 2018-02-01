@@ -1,0 +1,40 @@
+- model: shops.ContactType
+  pk: 1
+  fields:
+    name: 電話
+- model: shops.ContactType
+  pk: 2
+  fields:
+    name: 公式サイト
+- model: shops.ContactType
+  pk: 3
+  fields:
+    name: Blog
+- model: shops.ContactType
+  pk: 4
+  fields:
+    name: Twitter
+- model: shops.ContactType
+  pk: 5
+  fields:
+    name: Facebook
+- model: shops.ContactType
+  pk: 6
+  fields:
+    name: Instagram
+- model: shops.ContactType
+  pk: 7
+  fields:
+    name: LINE
+- model: shops.ContactType
+  pk: 8
+  fields:
+    name: 食べログ
+- model: shops.ContactType
+  pk: 9
+  fields:
+    name: Retty
+- model: shops.ContactType
+  pk: 90
+  fields:
+    name: その他Webサイト

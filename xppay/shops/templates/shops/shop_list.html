@@ -1,0 +1,43 @@
+{% extends "shops/base.html" %}
+{% load static %}
+
+{% block content %}
+<h5>エリアを選択</h5>
+<ul class="collection">
+  {% for area in areas %}
+  <li class="collection-item">{% if area.num_shops > 0 %}<a href="#area-{{ area.id }}">{% endif %}{{ area.name }}: {{ area.num_shops }}件{% if area.num_shops > 0 %}</a>{% endif %}</li>
+  {% endfor %}
+</ul>
+
+{% regroup object_list by area as area_shops %}
+{% for area, local_shops in area_shops %}
+<h5 id="area-{{ area.id }}">{{ area.name }}</h5>
+<div class="divider"></div>
+<div class="section">
+  <div class="row">
+    {% for shop in local_shops %}
+    <div class="col s12 m3">
+      <div class="card">
+        <div class="card-image blue-grey darken-1 waves-effect waves-block waves-light">
+          <img src="{% static 'shops/xp-man-1.png' %}" alt="{{ shop.name }}" clas="activator">
+        </div>
+        <div class="card-content activator">
+          <span class="card-title">{{ shop.name }}<i class="material-icons right">more_vert</i></span>
+          <p>{{ shop.business_description|linebreaksbr }}</p>
+        </div>
+        <div class="card-action">
+          {% if shop.map_url %}
+          <a href="{{ shop.map_url }}" target="_blank">地図を見る</a>
+          {% endif %}
+        </div>
+        <div class="card-reveal">
+          <span class="card-title">{{ shop.name }}<i class="material-icons right">close</i></span>
+          <p>特典</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

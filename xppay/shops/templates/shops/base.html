@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>{% block title %}My amazing site{% endblock %}</title>
+    {% include 'material/includes/material_css.html' %} {% include 'material/includes/material_js.html' %}
+  </head>
+
+  <body>
+    <nav class="nav_wrapper">
+      <a href="{% url 'index' %}" class="brand-logo">XPpay shops</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li class="active">
+          <a href="{% url 'index' %}">Shop</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+
+</html>

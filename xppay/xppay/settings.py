@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'material.theme.green',
     'material',
     'accounts.apps.AccountsConfig',
+    'shops.apps.ShopsConfig',
 ]
 if DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
@@ -130,7 +131,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '/accounts/login'
-LOGIN_REDIRECT_URL = '/accounts/'
+LOGIN_REDIRECT_URL = '/shops/'
 LOGOUT_REDIRECT_URL = LOGIN_URL
 SOCIAL_AUTH_DISCORD_KEY = '400635912930721794'
 SOCIAL_AUTH_DISCORD_SECRET = 'HuZzwpqgDc2GeoTGEUNrAI1zjQ64J6hF'
