@@ -15,7 +15,26 @@
 </div>
 <h5>{{ object.name }}</h5>
 <p>{{ object.business_description }}</p>
+
+{% if object.benefits_available %}
+<h6>特典</h6>
+<ul class="collection with-header">
+  {% for benefit in object.benefits_available %}
+  <li class="collection-item">{{ benefit.content }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<h6>場所・連絡先</h6>
 <table class="striped">
+  <tr>
+    <td class="right">住所</td>
+    <td>
+      〒{{ object.zipcode }}<br>
+      {{ object.address1 }} {{ object.address2 }}<br>
+      {% if object.map_url %}<a href="{{ object.map_url }}" target="_blank">Google マップで地図を見る</a>{% endif %}
+    </td>
+  </tr>
   {% for contact in object.contact_set.all %}
   <tr>
     <td class="right">{{ contact.contact_type.name }}</td>

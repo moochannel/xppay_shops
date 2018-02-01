@@ -27,12 +27,19 @@
         </div>
         <div class="card-action">
           {% if shop.map_url %}
-          <a href="{{ shop.map_url }}" target="_blank">地図を見る</a>
+          <a href="{% url 'shop_detail' pk=shop.pk %}">お店の情報を見る</a>
           {% endif %}
         </div>
         <div class="card-reveal">
           <span class="card-title">{{ shop.name }}<i class="material-icons right">close</i></span>
-          <p>特典</p>
+          {% if shop.benefits_available %}
+          <ul class="collection with-header">
+            <li class="collection-header">特典</li>
+            {% for benefit in shop.benefits_available %}
+            <li class="collection-item">{{ benefit.content }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </div>
       </div>
     </div>

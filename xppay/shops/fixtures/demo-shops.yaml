@@ -39,6 +39,32 @@
     contact_type: 6
     label: '@emporio_cafe_official'
     href: https://www.instagram.com/emporio_cafe_official/
+- model: shops.Benefit
+  pk: 1
+  fields:
+    shop: 1
+    content: 初回オーダー時、100XPをプレゼント
+    starts_at: "2018-02-01 00:00:00+0900"
+- model: shops.Benefit
+  pk: 2
+  fields:
+    shop: 1
+    content: XPでのお会計なら20%OFF
+    starts_at: "2018-02-01 00:00:00+0900"
+- model: shops.Benefit
+  pk: 3
+  fields:
+    shop: 1
+    content: 未来の特典
+    starts_at: "2019-02-01 00:00:00+0900"
+- model: shops.Benefit
+  pk: 4
+  fields:
+    shop: 1
+    content: 過去の特典
+    starts_at: "2017-02-01 00:00:00+0900"
+    ends_at: "2018-01-01 00:00:00+0900"
+
 - model: shops.Contact
   pk: 5
   fields:
@@ -80,6 +106,13 @@
     contact_type: 5
     label: '@toritenhonpo.neyagawa'
     href: https://www.facebook.com/toritenhonpo.neyagawa/
+- model: shops.Benefit
+  pk: 5
+  fields:
+    shop: 2
+    content: XPでのお会計なら10%OFF
+    starts_at: "2018-02-01 00:00:00+0900"
+
 - model: shops.Contact
   pk: 9
   fields:
@@ -123,3 +156,9 @@
     contact_type: 5
     label: '@kawashou.honten'
     href: https://www.facebook.com/kawashou.honten/
+- model: shops.Benefit
+  pk: 6
+  fields:
+    shop: 3
+    content: 日替わり逸品小鉢料理をご来店人数分サービス
+    starts_at: "2018-02-01 00:00:00+0900"
