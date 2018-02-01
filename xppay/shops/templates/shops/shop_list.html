@@ -16,14 +16,14 @@
 <div class="section">
   <div class="row">
     {% for shop in local_shops %}
-    <div class="col s12 m3">
-      <div class="card">
+    <div class="col s12 m4">
+      <div class="card hoverable">
         <div class="card-image blue-grey darken-1 waves-effect waves-block waves-light">
           <img src="{% static 'shops/xp-man-1.png' %}" alt="{{ shop.name }}" clas="activator">
         </div>
         <div class="card-content activator">
-          <span class="card-title">{{ shop.name }}<i class="material-icons right">more_vert</i></span>
-          <p>{{ shop.business_description|linebreaksbr }}</p>
+          <span class="card-title activator">{{ shop.name }}<i class="material-icons right">more_vert</i></span>
+          <p class="activator">{{ shop.business_description|linebreaksbr }}</p>
         </div>
         <div class="card-action">
           {% if shop.map_url %}

@@ -3,7 +3,9 @@
 
   <head>
     <title>{% block title %}My amazing site{% endblock %}</title>
-    {% include 'material/includes/material_css.html' %} {% include 'material/includes/material_js.html' %}
+    {% include 'material/includes/material_css.html' %}
+    <script src="{% static 'material/js/jquery.js' %}"></script>
+    {% include 'material/includes/material_js.html' %}
   </head>
 
   <body>
@@ -15,7 +17,7 @@
         </li>
       </ul>
     </nav>
-    <div id="content">
+    <div id="content" class="container">
       {% block content %}{% endblock %}
     </div>
   </body>
