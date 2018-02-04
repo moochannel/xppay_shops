@@ -2,6 +2,12 @@
 {% load static %}
 
 {% block content %}
+<div class="fixed-action-btn">
+  <a href="{% url 'shop_edit' pk=object.pk %}" class="btn-floating btn-large waves-effect waves-light red">
+    <i class="material-icons">edit</i>
+  </a>
+</div>
+
 <div class="carousel carousel-slider" data-indicators="true" style="height: 400px">
   <div class="carousel-item blue-grey darken-1 center">
     <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -6,15 +7,25 @@ class Area(models.Model):
     name = models.CharField(max_length=20)
     list_order = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
 
 class Shop(models.Model):
-    area = models.ForeignKey(Area, on_delete=models.PROTECT, related_name='shops')
-    name = models.CharField(max_length=200)
-    business_description = models.CharField(max_length=1000)
-    zipcode = models.CharField(max_length=7)
-    address1 = models.CharField(max_length=100)
-    address2 = models.CharField(max_length=100, blank=True)
-    map_url = models.URLField(blank=True)
+    area = models.ForeignKey(
+        Area, verbose_name='地域', on_delete=models.PROTECT, related_name='shops'
+    )
+    name = models.CharField(verbose_name='店舗名', max_length=200)
+    business_description = models.CharField(verbose_name='紹介文', max_length=1000)
+    zipcode = models.CharField(
+        verbose_name='郵便番号', max_length=7, help_text='ハイフンを入れず7桁の数字で入力してください'
+    )
+    address1 = models.CharField(verbose_name='住所1', max_length=100)
+    address2 = models.CharField(verbose_name='住所2', max_length=100, blank=True)
+    map_url = models.URLField(verbose_name='店舗地図URL', max_length=2000, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('shop_detail', kwargs={'pk': self.pk})
 
     def benefits_available(self, when=None):
         if when:
