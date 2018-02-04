@@ -32,9 +32,7 @@
           <p class="activator">{{ shop.business_description|linebreaksbr }}</p>
         </div>
         <div class="card-action">
-          {% if shop.map_url %}
           <a href="{% url 'shop_detail' pk=shop.pk %}">お店の情報を見る</a>
-          {% endif %}
         </div>
         <div class="card-reveal">
           <span class="card-title">{{ shop.name }}<i class="material-icons right">close</i></span>
