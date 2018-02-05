@@ -4,8 +4,8 @@ from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
-from .forms import BenefitForm, ShopForm
-from .models import Area, Benefit, Shop
+from .forms import BenefitForm, PhotoForm, ShopForm
+from .models import Area, Benefit, Photo, Shop
 
 
 class ShopList(ListView):
@@ -96,4 +96,34 @@ class BenefitUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['shop'] = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
         context['active_subtab'] = 'benefit'
+        return context
+
+
+class PhotoList(ListView):
+    model = Photo
+
+    def get_queryset(self):
+        self.shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        return self.shop.photo_set.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = self.shop
+        context['active_subtab'] = 'photo'
+        return context
+
+
+class PhotoCreate(CreateView):
+    model = Photo
+    form_class = PhotoForm
+
+    def form_valid(self, form):
+        shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        form.instance.shop = shop
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        context['active_subtab'] = 'photo'
         return context

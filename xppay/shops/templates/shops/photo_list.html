@@ -1,0 +1,29 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load shop_extras %}
+
+{% block edit_content %}
+<h5>{{ shop.name }}の店舗画像</h5>
+
+<div class="fixed-action-btn">
+  <a href="{% url 'shop_photo_add' shop_id=shop.pk %}" class="btn-floating btn-large waves-effect waves-light red">
+    <i class="material-icons">add</i>
+  </a>
+</div>
+
+{% if object_list %}
+<div class="row">
+  {% for image in object_list %}
+  <div class="col s12 m4">
+    <div class="card">
+      <div class="card-image">
+        <img src="{{ image.thumbnail.url }}" >
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>画像は登録されていません</p>
+{% endif %}
+{% endblock %}

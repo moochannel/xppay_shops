@@ -1,7 +1,8 @@
 from django.urls import path
 
 from .views import (
-    BenefitCreate, BenefitList, BenefitUpdate, ShopCreate, ShopDetail, ShopList, ShopUpdate
+    BenefitCreate, BenefitList, BenefitUpdate, PhotoList, ShopCreate, ShopDetail, ShopList,
+    ShopUpdate, PhotoCreate
 )
 
 urlpatterns = [
@@ -14,4 +15,6 @@ urlpatterns = [
     path(
         '<int:shop_id>/benefits/<int:pk>/edit/', BenefitUpdate.as_view(), name='shop_benefit_edit'
     ),
+    path('<int:shop_id>/photos/', PhotoList.as_view(), name='shop_photo_list'),
+    path('<int:shop_id>/photos/add/', PhotoCreate.as_view(), name='shop_photo_add'),
 ]

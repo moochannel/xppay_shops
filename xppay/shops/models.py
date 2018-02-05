@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 
 class Area(models.Model):
@@ -75,3 +77,25 @@ class Benefit(models.Model):
                 return choice_label
 
         return None
+
+
+class Photo(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    list_order = models.IntegerField()
+    origin = models.ImageField(upload_to='shops/origin/%y/%m/%d')
+    carousel = ImageSpecField(
+        source='origin', processors=[ResizeToFill(840, 440)], options={
+            'quality': 85
+        }
+    )
+    thumbnail = ImageSpecField(
+        source='origin', processors=[ResizeToFill(210, 110)], options={
+            'quality': 80
+        }
+    )
+
+    class Meta:
+        ordering = ['list_order']
+
+    def get_absolute_url(self):
+        return reverse('shop_photo_list', kwargs={'shop_id': self.shop.pk})

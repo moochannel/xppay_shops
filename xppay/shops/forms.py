@@ -1,7 +1,7 @@
 import material
 from django import forms
 
-from .models import Benefit, Shop
+from .models import Benefit, Photo, Shop
 
 
 class ShopForm(forms.ModelForm):
@@ -27,4 +27,16 @@ class BenefitForm(forms.ModelForm):
     layout = material.Layout(
         material.Row('starts_at', 'ends_at'),
         material.Row('content'),
+    )
+
+
+class PhotoForm(forms.ModelForm):
+
+    class Meta:
+        model = Photo
+        fields = ['origin', 'list_order']
+
+    layout = material.Layout(
+        material.Row('origin'),
+        material.Row('list_order'),
     )
