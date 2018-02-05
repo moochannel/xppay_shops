@@ -55,6 +55,23 @@ class Contact(models.Model):
 
 class Benefit(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    content = models.CharField(max_length=200)
-    starts_at = models.DateTimeField(auto_now_add=True)
-    ends_at = models.DateTimeField(blank=True, null=True)
+    content = models.CharField(verbose_name='特典内容', max_length=200)
+    starts_at = models.DateTimeField(verbose_name='開始日時', default=timezone.now)
+    ends_at = models.DateTimeField(verbose_name='終了日時', blank=True, null=True)
+
+    STATE_CHOICES = (
+        (1, '利用可能'),
+        (0, '予定'),
+        (-1, '終了済み'),
+    )
+
+    def get_absolute_url(self):
+        return reverse('shop_benefit_list', kwargs={'shop_id': self.shop.pk})
+
+    @classmethod
+    def get_state_display(cls, state):
+        for choice_id, choice_label in cls.STATE_CHOICES:
+            if choice_id == state:
+                return choice_label
+
+        return None

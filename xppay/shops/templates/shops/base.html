@@ -10,13 +10,15 @@
   </head>
 
   <body>
-    <nav class="nav_wrapper">
-      <a href="{% url 'index' %}" class="brand-logo">XPpay shops</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li class="active">
-          <a href="{% url 'index' %}">Shop</a>
-        </li>
-      </ul>
+    <nav class="nav-extended">
+      <div class="nav-wrapper">
+        <a href="{% url 'index' %}" class="brand-logo">XPpay shops</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li class="active">
+            <a href="{% url 'index' %}">Shop</a>
+          </li>
+        </ul>
+      </div>
     </nav>
     <div id="content" class="container">
       {% block content %}{% endblock %}

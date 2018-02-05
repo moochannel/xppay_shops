@@ -1,0 +1,43 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load shop_extras %}
+
+{% block edit_content %}
+<h5>{{ shop.name }}の特典</h5>
+
+<div class="fixed-action-btn">
+  <a href="{% url 'shop_benefit_add' shop_id=shop.pk %}" class="btn-floating btn-large waves-effect waves-light red">
+    <i class="material-icons">add</i>
+  </a>
+</div>
+
+  {% if object_list %}
+{% regroup object_list by state as benefits_by_state %}
+{% for state, benefits in benefits_by_state %}
+<h6 style="margin-top: 3rem;">{{ state|state_label }}</h6>
+<table class="striped">
+  <colgroup>
+    <col style="width: 10rem;">
+    <col style="width: 10rem;">
+    <col>
+  </colgroup>
+  <thead>
+    <th>開始日時</th>
+    <th>終了日時</th>
+    <th>特典内容</th>
+  </thead>
+  <tbody>
+    {% for benefit in benefits %}
+    <tr>
+      <td>{{ benefit.starts_at }}</td>
+      <td>{{ benefit.ends_at|default:'' }}</td>
+      <td><a href="{% url 'shop_benefit_edit' shop_id=shop.pk pk=benefit.pk %}">{{ benefit.content }}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endfor %}
+{% else %}
+<p>特典は登録されていません</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "shops/base.html" %}
+{% load static %}
+
+{% block content %}
+      {% if shop %}
+      <div class="row">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s3">
+              <a href="{% url 'shop_edit' pk=shop.id %}" target="_self" {% if active_subtab == 'shop' %}class="active"{% endif %}>基本情報</a>
+            </li>
+            <li class="tab col s3">
+              <a href="{% url 'shop_benefit_list' shop_id=shop.id %}" target="_self" {% if active_subtab == 'benefit' %}class="active"{% endif %}>特典</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+{% block edit_content %}{% endblock %}
+<script>
+  $(document).ready(function(){
+    $('ul.tabs').tabs();
+  });
+</script>
+{% endblock %}
