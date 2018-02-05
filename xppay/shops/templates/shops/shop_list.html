@@ -25,7 +25,13 @@
     <div class="col s12 m4">
       <div class="card hoverable">
         <div class="card-image blue-grey darken-1 waves-effect waves-block waves-light">
-          <a href="{% url 'shop_detail' pk=shop.pk %}"><img src="{% static 'shops/xp-man-1.png' %}" alt="{{ shop.name }}" clas="activator"></a>
+          <a href="{% url 'shop_detail' pk=shop.pk %}">
+            {% if shop.photo_set.first %}
+            <img src="{{ shop.photo_set.first.thumbnail.url }}" alt="{{ shop.name }}" clas="activator">
+            {% else %}
+            <img src="{% static 'shops/xp-man-1.png' %}" alt="{{ shop.name }}" clas="activator">
+            {% endif %}
+          </a>
         </div>
         <div class="card-content activator">
           <span class="card-title activator">{{ shop.name }}<i class="material-icons right">more_vert</i></span>

@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import Thumbnail
 
 
 class Area(models.Model):
@@ -84,12 +84,12 @@ class Photo(models.Model):
     list_order = models.IntegerField()
     origin = models.ImageField(upload_to='shops/origin/%y/%m/%d')
     carousel = ImageSpecField(
-        source='origin', processors=[ResizeToFill(840, 440)], options={
+        source='origin', processors=[Thumbnail(840, 440)], options={
             'quality': 85
         }
     )
     thumbnail = ImageSpecField(
-        source='origin', processors=[ResizeToFill(210, 110)], options={
+        source='origin', processors=[Thumbnail(210, 110)], options={
             'quality': 80
         }
     )
@@ -99,3 +99,13 @@ class Photo(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop_photo_list', kwargs={'shop_id': self.shop.pk})
+
+    def delete(self, *args, **kwargs):
+        storage = self.origin.storage
+        path = self.origin.path
+        super().delete(*args, **kwargs)
+        try:
+            storage.delete(path)
+        except BaseException:
+            print(f'error occured on delete origin file: {path}')
+            raise

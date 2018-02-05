@@ -1,8 +1,9 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from .forms import BenefitForm, PhotoForm, ShopForm
 from .models import Area, Benefit, Photo, Shop
@@ -127,3 +128,14 @@ class PhotoCreate(CreateView):
         context['shop'] = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
         context['active_subtab'] = 'photo'
         return context
+
+
+class PhotoDelete(DeleteView):
+    model = Photo
+
+    def get_queryset(self):
+        self.shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        return self.shop.photo_set.all()
+
+    def get_success_url(self):
+        return reverse_lazy('shop_photo_list', kwargs={'shop_id': self.object.shop_id})

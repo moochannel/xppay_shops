@@ -9,15 +9,15 @@
 </div>
 
 <div class="carousel carousel-slider" data-indicators="true" style="height: 400px">
+  {% for photo in shop.photo_set.all %}
+  <div class="carousel-item blue-grey darken-1 center">
+    <img src="{{ photo.carousel.url }}" style="width: auto; object-fit: contain;">
+  </div>
+  {% empty %}
   <div class="carousel-item blue-grey darken-1 center">
     <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">
   </div>
-  <div class="carousel-item blue-grey darken-1 center">
-    <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">
-  </div>
-  <div class="carousel-item blue-grey darken-1 center">
-    <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">
-  </div>
+  {% endfor %}
 </div>
 <h5>{{ object.name }}</h5>
 <p>{{ object.business_description|linebreaksbr }}</p>
