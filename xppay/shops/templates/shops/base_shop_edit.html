@@ -7,13 +7,13 @@
         <div class="col s12">
           <ul class="tabs">
             <li class="tab col s4">
-              <a href="{% url 'shops:shop_edit' pk=shop.id %}" target="_self" {% if active_subtab == 'shop' %}class="active"{% endif %}>基本情報</a>
+              <a href="{% url 'shops:shop_edit' slug=shop.slug %}" target="_self" {% if active_subtab == 'shop' %}class="active"{% endif %}>基本情報</a>
             </li>
             <li class="tab col s4">
-              <a href="{% url 'shops:benefit_list' shop_id=shop.id %}" target="_self" {% if active_subtab == 'benefit' %}class="active"{% endif %}>特典</a>
+              <a href="{% url 'shops:benefit_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'benefit' %}class="active"{% endif %}>特典</a>
             </li>
             <li class="tab col s4">
-              <a href="{% url 'shops:photo_list' shop_id=shop.id %}" target="_self" {% if active_subtab == 'photo' %}class="active"{% endif %}>店舗画像</a>
+              <a href="{% url 'shops:photo_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'photo' %}class="active"{% endif %}>店舗画像</a>
             </li>
           </ul>
         </div>

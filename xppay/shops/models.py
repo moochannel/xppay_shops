@@ -25,9 +25,13 @@ class Shop(models.Model):
     address1 = models.CharField(verbose_name='住所1', max_length=100)
     address2 = models.CharField(verbose_name='住所2', max_length=100, blank=True)
     map_url = models.URLField(verbose_name='店舗地図URL', max_length=2000, blank=True)
+    slug = models.SlugField(
+        verbose_name='スラッグ', allow_unicode=True, default='', unique=True,
+        help_text='URLで店舗を識別するための単語を指定します'
+    )
 
     def get_absolute_url(self):
-        return reverse('shop_detail', kwargs={'pk': self.pk})
+        return reverse('shops:shop_detail', kwargs={'slug': self.slug})
 
     def benefits_available(self, when=None):
         if when:
@@ -68,7 +72,7 @@ class Benefit(models.Model):
     )
 
     def get_absolute_url(self):
-        return reverse('shop_benefit_list', kwargs={'shop_id': self.shop.pk})
+        return reverse('shops:benefit_list', kwargs={'slug': self.shop.slug})
 
     @classmethod
     def get_state_display(cls, state):
@@ -101,7 +105,7 @@ class Photo(models.Model):
         ordering = ['pk']
 
     def get_absolute_url(self):
-        return reverse('shop_photo_list', kwargs={'shop_id': self.shop.pk})
+        return reverse('shops:photo_list', kwargs={'slug': self.shop.slug})
 
     def delete(self, *args, **kwargs):
         storage = self.origin.storage

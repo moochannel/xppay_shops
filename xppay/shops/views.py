@@ -51,7 +51,7 @@ class BenefitList(ListView):
     model = Benefit
 
     def get_queryset(self):
-        self.shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         basis_dt = timezone.now()
         return self.shop.benefit_set.annotate(
             state=models.Case(
@@ -74,13 +74,13 @@ class BenefitCreate(CreateView):
     form_class = BenefitForm
 
     def form_valid(self, form):
-        shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         form.instance.shop = shop
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['shop'] = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        context['shop'] = get_object_or_404(Shop, slug=self.kwargs['slug'])
         context['active_subtab'] = 'benefit'
         return context
 
@@ -90,12 +90,12 @@ class BenefitUpdate(UpdateView):
     form_class = BenefitForm
 
     def get_queryset(self):
-        self.shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         return self.shop.benefit_set.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['shop'] = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        context['shop'] = get_object_or_404(Shop, slug=self.kwargs['slug'])
         context['active_subtab'] = 'benefit'
         return context
 
@@ -104,7 +104,7 @@ class PhotoList(ListView):
     model = Photo
 
     def get_queryset(self):
-        self.shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         return self.shop.photo_set.all()
 
     def get_context_data(self, **kwargs):
@@ -119,13 +119,13 @@ class PhotoCreate(CreateView):
     form_class = PhotoForm
 
     def form_valid(self, form):
-        shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         form.instance.shop = shop
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['shop'] = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        context['shop'] = get_object_or_404(Shop, slug=self.kwargs['slug'])
         context['active_subtab'] = 'photo'
         return context
 
@@ -134,8 +134,8 @@ class PhotoDelete(DeleteView):
     model = Photo
 
     def get_queryset(self):
-        self.shop = get_object_or_404(Shop, pk=self.kwargs['shop_id'])
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         return self.shop.photo_set.all()
 
     def get_success_url(self):
-        return reverse_lazy('shop_photo_list', kwargs={'shop_id': self.object.shop_id})
+        return reverse_lazy('shops:photo_list', kwargs={'slug': self.object.shop.slug})
