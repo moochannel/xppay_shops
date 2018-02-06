@@ -34,9 +34,8 @@ class PhotoForm(forms.ModelForm):
 
     class Meta:
         model = Photo
-        fields = ['origin', 'list_order']
+        fields = ['origin']
 
     layout = material.Layout(
         material.Row('origin'),
-        material.Row('list_order'),
     )

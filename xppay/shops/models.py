@@ -81,8 +81,11 @@ class Benefit(models.Model):
 
 class Photo(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    list_order = models.IntegerField()
-    origin = models.ImageField(upload_to='shops/origin/%y/%m/%d')
+    origin = models.ImageField(
+        verbose_name='店舗画像',
+        upload_to='shops/origin/%y/%m/%d',
+        help_text='PCでは画像ファイルをファイルボタンにドラッグすると簡単に指定できます'
+    )
     carousel = ImageSpecField(
         source='origin', processors=[Thumbnail(840, 440)], options={
             'quality': 85
@@ -95,7 +98,7 @@ class Photo(models.Model):
     )
 
     class Meta:
-        ordering = ['list_order']
+        ordering = ['pk']
 
     def get_absolute_url(self):
         return reverse('shop_photo_list', kwargs={'shop_id': self.shop.pk})
