@@ -7,15 +7,16 @@
     {% include 'material/includes/material_css.html' %}
     <script src="{% static 'material/js/jquery.js' %}"></script>
     {% include 'material/includes/material_js.html' %}
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
   </head>
 
   <body>
     <nav class="nav-extended">
       <div class="nav-wrapper">
-        <a href="{% url 'index' %}" class="brand-logo">XPpay shops</a>
+        <a href="{% url 'shops:shop_list' %}" class="brand-logo">XPpay shops</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li class="active">
-            <a href="{% url 'index' %}">Shop</a>
+            <a href="{% url 'shops:shop_list' %}">Shop</a>
           </li>
         </ul>
       </div>

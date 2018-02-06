@@ -7,7 +7,7 @@
 <h5>{{ shop.name }}の店舗画像</h5>
 
 <div class="fixed-action-btn">
-  <a href="{% url 'shop_photo_add' shop_id=shop.pk %}" class="btn-floating btn-large waves-effect waves-light red">
+  <a href="{% url 'shops:photo_add' shop_id=shop.pk %}" class="btn-floating btn-large waves-effect waves-light red">
     <i class="material-icons">add</i>
   </a>
 </div>
@@ -18,7 +18,7 @@
   <div class="col s12 m4">
     <div class="card">
       <div class="card-image">
-        <form method="POST" action="{% url 'shop_photo_del' shop_id=shop.pk pk=image.pk %}">
+        <form method="POST" action="{% url 'shops:photo_del' shop_id=shop.pk pk=image.pk %}">
           {% csrf_token %}
           <button type="submit" class="btn-floating btn-small waves-effect waves-light red" style="position: absolute; top: 1rem; right: 1rem;"><i class="material-icons">delete</i></button>
         </form>
