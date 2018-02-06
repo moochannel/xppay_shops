@@ -54,6 +54,11 @@
 <script>
   $(document).ready(function(){
     $('.carousel.carousel-slider').carousel({fullWidth: true, indicators: true});
+    if ($('.carousel.carousel-slider > .carousel-item').length > 1) {
+      setInterval(function() {
+        $('.carousel.carousel-slider').carousel('next')
+      }, 5000);
+    }
   });
 </script>
 {% endblock %}
