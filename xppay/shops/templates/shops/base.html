@@ -3,7 +3,7 @@
 <html>
 
   <head>
-    <title>{% block title %}My amazing site{% endblock %}</title>
+    <title>{% block title %}ページタイトル{% endblock %} - XPpay SHOPS</title>
     {% include 'material/includes/material_css.html' %}
     <script src="{% static 'material/js/jquery.js' %}"></script>
     {% include 'material/includes/material_js.html' %}
@@ -13,12 +13,31 @@
   <body>
     <nav class="nav-extended">
       <div class="nav-wrapper">
-        <a href="{% url 'shops:shop_list' %}" class="brand-logo">XPpay shops</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li class="active">
-            <a href="{% url 'shops:shop_list' %}">Shop</a>
-          </li>
-        </ul>
+        <div class="container">
+          <a href="{% url 'shops:shop_list' %}" class="brand-logo">XPpay SHOPS</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="active">
+              <a href="{% url 'shops:shop_list' %}">Shop</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+              <a href="{% url 'logout' %}">{{ user }}</a>
+            </li>
+            {% else %}
+            <li>
+              <a href="{% url 'social:begin' 'discord' %}">Login with Discord</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="nav-wrapper">
+        <div class="container">
+          <div class="col s12">
+            <a href="{% url 'shops:shop_list' %}" class="breadcrumb">店舗一覧</a>
+            {% block breadcrumbs %}{% endblock %}
+          </div>
+        </div>
       </div>
     </nav>
     <div id="content" class="container">
@@ -26,5 +45,4 @@
     </div>
   </body>
   {% block footjs %}{% endblock %}
-
 </html>

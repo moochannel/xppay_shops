@@ -2,6 +2,8 @@
 {% load static %}
 {% load shop_extras %}
 
+{% block title %}{{ shop.name }}特典一覧{% endblock %}
+
 {% block edit_content %}
 <h5>{{ shop.name }}の特典</h5>
 
@@ -11,7 +13,7 @@
   </a>
 </div>
 
-  {% if object_list %}
+{% if object_list %}
 {% regroup object_list by state as benefits_by_state %}
 {% for state, benefits in benefits_by_state %}
 <h6 style="margin-top: 3rem;">{{ state|state_label }}</h6>

@@ -2,6 +2,8 @@
 {% load static %}
 {% load material_form %}
 
+{% block title %}{{ shop.name }}画像追加{% endblock %}
+
 {% block edit_content %}
 <form method="POST" enctype="multipart/form-data">
   {% csrf_token %}

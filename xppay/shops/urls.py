@@ -8,8 +8,8 @@ from .views import (
 app_name = 'shops'
 urlpatterns = [
     path('', ShopList.as_view(), name='shop_list'),
-    path('<slug>/', ShopDetail.as_view(), name='shop_detail'),
     path('add/', ShopCreate.as_view(), name='shop_add'),
+    path('<slug>/', ShopDetail.as_view(), name='shop_detail'),
     path('<slug>/edit/', ShopUpdate.as_view(), name='shop_edit'),
     path('<slug>/benefits/', BenefitList.as_view(), name='benefit_list'),
     path('<slug>/benefits/add/', BenefitCreate.as_view(), name='benefit_add'),

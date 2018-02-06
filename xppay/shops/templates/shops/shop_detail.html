@@ -1,6 +1,12 @@
 {% extends "shops/base.html" %}
 {% load static %}
 
+{% block title %}{{ shop.name }}{% endblock %}
+
+{% block breadcrumbs %}
+            <span class="breadcrumb">{{ shop.name }}</span>
+{% endblock %}
+
 {% block content %}
 <div class="fixed-action-btn">
   <a href="{% url 'shops:shop_edit' slug=object.slug %}" class="btn-floating btn-large waves-effect waves-light red">
@@ -52,7 +58,7 @@
 
 {% block footjs %}
 <script>
-  $(document).ready(function(){
+  $(function(){
     $('.carousel.carousel-slider').carousel({fullWidth: true, indicators: true});
     if ($('.carousel.carousel-slider > .carousel-item').length > 1) {
       setInterval(function() {

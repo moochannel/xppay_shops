@@ -2,6 +2,8 @@
 {% load static %}
 {% load material_form %}
 
+{% block title %}{{ shop.name }}特典編集{% endblock %}
+
 {% block edit_content %}
 <form method="POST">
   {% csrf_token %}
