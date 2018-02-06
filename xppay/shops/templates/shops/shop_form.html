@@ -16,3 +16,13 @@
   </div>
 </form>
 {% endblock %}
+
+{% block footjs %}
+<script>
+  $(function() {
+    $('#id_name').on('keyup', function() {
+      $('#id_slug').val($(this).val().split(' ').join('-'));
+    });
+  });
+</script>
+{% endblock %}
