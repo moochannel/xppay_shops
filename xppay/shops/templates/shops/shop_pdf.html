@@ -1,0 +1,74 @@
+{% load static %}
+{% load shop_extras %}
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>{{ shop.name }}</title>
+    <style type="text/css" media="print">
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
+
+      .head_title {
+        text-align: center;
+      }
+      .head_title img {
+        width: 180mm;
+      }
+      .phone {
+        text-align: center;
+      }
+      .phone img {
+        width: 80mm;
+      }
+      .xpchan {
+        position: absolute;
+        top: 165mm;
+        left: 135mm;
+      }
+      .xpchan img {
+        width: 50mm;
+      }
+      .qrcode {
+        width: 40mm;
+        height: 40mm;
+        margin: 10mm auto 0;
+        border: 1px solid #ccc;
+      }
+      .shop_name {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+      .shop_name p {
+        color: #0071bb;
+        text-align: center;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 36pt;
+        font-weight: bold;
+      }
+   </style>
+  </head>
+
+  <body>
+    <div class="head_title">
+      <img src="{% b64encode_image 'shops/xppay_applicable.png' %}">
+    </div>
+    <div class="phone">
+      <img src="{% b64encode_image 'shops/xppay_phone.png' %}">
+    </div>
+    <div class="xpchan">
+      <img src="{% b64encode_image 'shops/xppay_xpchan.png' %}">
+    </div>
+    <div class="qrcode">
+      <p>QR Code here</p>
+    </div>
+    <div class="shop_name">
+      <p>@{{ shop.name }}</p>
+    </div>
+  </body>
+
+</html>

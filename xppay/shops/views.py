@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django_weasyprint import WeasyTemplateResponseMixin
 
 from .forms import BenefitForm, PhotoForm, ShopForm
 from .models import Area, Benefit, Photo, Shop
@@ -48,6 +49,11 @@ class ShopUpdate(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['active_subtab'] = 'shop'
         return context
+
+
+class ShopPdf(WeasyTemplateResponseMixin, DetailView):
+    model = Shop
+    template_name = 'shops/shop_pdf.html'
 
 
 class BenefitList(LoginRequiredMixin, ListView):
