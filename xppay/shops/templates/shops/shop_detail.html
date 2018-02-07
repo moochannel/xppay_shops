@@ -8,11 +8,13 @@
 {% endblock %}
 
 {% block content %}
+{% if user.is_authenticated %}
 <div class="fixed-action-btn">
   <a href="{% url 'shops:shop_edit' slug=object.slug %}" class="btn-floating btn-large waves-effect waves-light red">
     <i class="material-icons">edit</i>
   </a>
 </div>
+{% endif %}
 
 <div class="carousel carousel-slider" data-indicators="true" style="height: 400px">
   {% for photo in shop.photo_set.all %}

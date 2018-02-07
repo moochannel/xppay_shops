@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -27,7 +28,8 @@ class ShopDetail(DetailView):
     model = Shop
 
 
-class ShopCreate(CreateView):
+class ShopCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     model = Shop
     form_class = ShopForm
 
@@ -37,7 +39,8 @@ class ShopCreate(CreateView):
         return context
 
 
-class ShopUpdate(UpdateView):
+class ShopUpdate(LoginRequiredMixin, UpdateView):
+    raise_exception = True
     model = Shop
     form_class = ShopForm
 
@@ -47,7 +50,8 @@ class ShopUpdate(UpdateView):
         return context
 
 
-class BenefitList(ListView):
+class BenefitList(LoginRequiredMixin, ListView):
+    raise_exception = True
     model = Benefit
 
     def get_queryset(self):
@@ -69,7 +73,8 @@ class BenefitList(ListView):
         return context
 
 
-class BenefitCreate(CreateView):
+class BenefitCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     model = Benefit
     form_class = BenefitForm
 
@@ -85,7 +90,8 @@ class BenefitCreate(CreateView):
         return context
 
 
-class BenefitUpdate(UpdateView):
+class BenefitUpdate(LoginRequiredMixin, UpdateView):
+    raise_exception = True
     model = Benefit
     form_class = BenefitForm
 
@@ -100,7 +106,8 @@ class BenefitUpdate(UpdateView):
         return context
 
 
-class PhotoList(ListView):
+class PhotoList(LoginRequiredMixin, ListView):
+    raise_exception = True
     model = Photo
 
     def get_queryset(self):
@@ -114,7 +121,8 @@ class PhotoList(ListView):
         return context
 
 
-class PhotoCreate(CreateView):
+class PhotoCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     model = Photo
     form_class = PhotoForm
 
@@ -130,7 +138,8 @@ class PhotoCreate(CreateView):
         return context
 
 
-class PhotoDelete(DeleteView):
+class PhotoDelete(LoginRequiredMixin, DeleteView):
+    raise_exception = True
     model = Photo
 
     def get_queryset(self):

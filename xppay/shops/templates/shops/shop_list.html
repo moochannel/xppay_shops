@@ -11,11 +11,13 @@
   {% endfor %}
 </ul>
 
+{% if user.is_authenticated %}
 <div class="fixed-action-btn">
   <a href="{% url 'shops:shop_add' %}" class="btn-floating btn-large waves-effect waves-light red">
     <i class="material-icons">add</i>
   </a>
 </div>
+{% endif %}
 
 {% regroup object_list by area as area_shops %}
 {% for area, local_shops in area_shops %}
