@@ -36,9 +36,10 @@ pyphen==0.9.4             # via weasyprint
 python3-openid==3.1.0     # via social-auth-core
 pytz==2017.3              # via django
 pyyaml==3.12
+qrcode==5.3
 requests-oauthlib==0.8.0  # via social-auth-core
 requests==2.18.4          # via requests-oauthlib, social-auth-core
-six==1.11.0               # via django-imagekit, html5lib, pip-tools, social-auth-app-django, social-auth-core
+six==1.11.0               # via django-imagekit, html5lib, pip-tools, qrcode, social-auth-app-django, social-auth-core
 social-auth-app-django==2.1.0
 social-auth-core==1.6.0   # via social-auth-app-django
 sqlparse==0.2.4           # via django-debug-toolbar

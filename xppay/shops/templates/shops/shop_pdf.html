@@ -38,15 +38,19 @@
         margin: 10mm auto 0;
         border: 1px solid #ccc;
       }
-      .shop_name {
+      .qrcode img {
+        width: 40mm;
+        height: 40mm;
+      }
+      .payment_account {
         position: absolute;
         bottom: 0;
         width: 100%;
       }
-      .shop_name p {
+      .payment_account p {
         color: #0071bb;
         text-align: center;
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-family: 'Segoe UI';
         font-size: 36pt;
         font-weight: bold;
       }
@@ -64,10 +68,10 @@
       <img src="{% b64encode_image 'shops/xppay_xpchan.png' %}">
     </div>
     <div class="qrcode">
-      <p>QR Code here</p>
+        <img src="{{ shop.qrcode_b64 }}">
     </div>
-    <div class="shop_name">
-      <p>@{{ shop.name }}</p>
+    <div class="payment_account">
+      <p>{{ shop.discord_for_payment }}</p>
     </div>
   </body>
 

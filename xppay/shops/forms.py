@@ -9,8 +9,8 @@ class ShopForm(forms.ModelForm):
     class Meta:
         model = Shop
         fields = [
-            'area', 'name', 'slug', 'business_description', 'zipcode', 'address1', 'address2',
-            'map_url'
+            'area', 'name', 'slug', 'discord_for_payment', 'business_description', 'zipcode',
+            'address1', 'address2', 'map_url', 'in_qrcode'
         ]
         widgets = {
             'business_description': forms.Textarea(attrs={

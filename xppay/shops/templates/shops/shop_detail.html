@@ -30,6 +30,20 @@
 <h5>{{ object.name }}</h5>
 <p>{{ object.business_description|linebreaksbr }}</p>
 
+<h6>XPpay支払先Discordアカウント</h6>
+<ul class="collection">
+  <li class="collection-item">
+    <div class="valign-wrapper">
+      <img src="{% static 'shops/XPpay_logo_39x50.png' %}">
+      <span style="margin-left: 1rem;">{{ shop.discord_for_payment }}</span>
+    </div>
+  </li>
+  <li class="collection-item valign-wrapper">
+    <i class="material-icons small">picture_as_pdf</i>
+    <a href="{% url 'shops:shop_pdf' slug=shop.slug %}" style="margin-left: 1rem;">PDFをダウンロード</a>
+  </li>
+</ul>
+
 {% if object.benefits_available %}
 <h6>特典</h6>
 <ul class="collection with-header">

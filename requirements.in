@@ -5,3 +5,4 @@ django-material
 pillow
 django-imagekit
 django-weasyprint
+qrcode

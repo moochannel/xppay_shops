@@ -4,6 +4,8 @@ from django.utils import timezone
 from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 
+from shops.utils import make_qrcode_for_pdf
+
 
 class Area(models.Model):
     name = models.CharField(max_length=20)
@@ -26,8 +28,23 @@ class Shop(models.Model):
     address2 = models.CharField(verbose_name='住所2', max_length=100, blank=True)
     map_url = models.URLField(verbose_name='店舗地図URL', max_length=2000, blank=True)
     slug = models.SlugField(
-        verbose_name='スラッグ', allow_unicode=True, default='', unique=True,
+        verbose_name='スラッグ',
+        allow_unicode=True,
+        default='',
+        unique=True,
         help_text='URLで店舗を識別するための単語を指定します'
+    )
+    discord_for_payment = models.CharField(
+        verbose_name='支払先Discordアカウント',
+        max_length=100,
+        default='@',
+        help_text='XPpayでの支払先に使用するDiscordアカウント名を指定します'
+    )
+    in_qrcode = models.CharField(
+        verbose_name='QRコード用文字列',
+        max_length=2000,
+        blank=True,
+        help_text='PDF内に表示するQRコードに埋め込む文字列を指定します'
     )
 
     def get_absolute_url(self):
@@ -45,6 +62,9 @@ class Shop(models.Model):
             models.Q(starts_at__lte=basis_dt),
             (models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=basis_dt))
         ).order_by('-ends_at', '-starts_at')
+
+    def qrcode_b64(self):
+        return make_qrcode_for_pdf(self.in_qrcode)
 
 
 class ContactType(models.Model):
