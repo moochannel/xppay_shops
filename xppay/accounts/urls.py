@@ -3,6 +3,7 @@ from django.urls import path
 
 from . import views
 
+app_name = 'accounts'
 urlpatterns = [
     path('', views.index, name='index'),
     path('login', auth_views.login, {'template_name': 'accounts/login.html'}, name='login'),
