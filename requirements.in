@@ -6,3 +6,5 @@ pillow
 django-imagekit
 django-weasyprint
 qrcode
+gunicorn
+gevent

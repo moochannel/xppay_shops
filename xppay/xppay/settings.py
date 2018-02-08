@@ -40,11 +40,10 @@ INSTALLED_APPS = [
     'material.theme.green',
     'material',
     'imagekit',
+    'debug_toolbar',
     'accounts.apps.AccountsConfig',
     'shops.apps.ShopsConfig',
 ]
-if DEBUG:
-    INSTALLED_APPS.append('debug_toolbar')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,10 +53,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
-if DEBUG:
-    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-    INTERNAL_IPS = '127.0.0.1'
+INTERNAL_IPS = '127.0.0.1'
 
 ROOT_URLCONF = 'xppay.urls'
 

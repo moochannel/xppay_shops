@@ -1,0 +1,7 @@
+.git/
+.venv/
+.vscode/
+**/db.sqlite3
+Dockerfile
+xppay/settings_development.py
+**/media/

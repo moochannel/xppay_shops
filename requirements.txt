@@ -16,6 +16,9 @@ django-imagekit==4.0.2
 django-material==1.2.2
 django-weasyprint==0.5.0
 django==2.0.1
+gevent==1.2.2
+greenlet==0.4.13          # via gevent
+gunicorn==19.7.1
 html5lib==1.0.1           # via weasyprint
 idna==2.6                 # via requests
 oauthlib==2.0.6           # via requests-oauthlib, social-auth-core

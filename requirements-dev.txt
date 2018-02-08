@@ -20,6 +20,9 @@ django-weasyprint==0.5.0
 django==2.0.1
 first==2.0.1              # via pip-tools
 flake8==3.5.0
+gevent==1.2.2
+greenlet==0.4.13          # via gevent
+gunicorn==19.7.1
 html5lib==1.0.1           # via weasyprint
 idna==2.6                 # via requests
 mccabe==0.6.1             # via flake8
