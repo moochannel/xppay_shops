@@ -1,0 +1,132 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load material_form %}
+
+{% block headcss %}
+<style>
+  h6 {
+    margin-top: 2rem;
+  }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+            <span class="breadcrumb">承認審査</span>
+{% endblock %}
+
+{% block title %}{{ object.shop.name }}承認審査{% endblock %}
+
+{% block edit_content %}
+<h5>承認審査</h5>
+<p>下記の承認申請を審査します。</p>
+
+<h6>基本情報</h6>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">店舗名</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.name }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">URL(スラッグ)</div>
+  <div class="col s11 offset-s1 m8">{% url 'shops:shop_detail' slug=object.shop.slug %}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">支払先Discordアカウント</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.discord_for_payment }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">紹介文</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.business_description }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">地域</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.area.name }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">郵便番号</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.zipcode }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">住所1</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.address1 }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">住所2</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.address2 }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">店舗地図URL</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.map_url }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">QRコード用文字列</div>
+  <div class="col s11 offset-s1 m8">{{ object.shop.in_qrcode }}</div>
+</div>
+<div class="divider"></div>
+<div style="text-align: right;">
+  <a href="{% url 'shops:shop_edit' slug=object.shop.slug %}" class="waves-effect waves-light btn">
+    基本情報を修正する
+    <i class="material-icons right">edit</i>
+  </a>
+</div>
+
+<h6>連絡先</h6>
+{% if object.shop.contact_set.all %}
+{% for contact in object.shop.contact_set.all %}
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">{{ contact.contact_type.name }}</div>
+  <div class="col s11 offset-s1 m8">{{ contact.label }}<br>(リンク: {{ contact.href }})</div>
+</div>
+{% endfor %}
+<div class="divider"></div>
+{% else %}
+<p>連絡先の登録がありませんので、掲載は承認されません。</p>
+{% endif %}
+<div style="text-align: right;">
+  <a href="{% url 'shops:contact_list' slug=object.shop.slug %}" class="waves-effect waves-light btn">
+    連絡先一覧を表示/修正する
+    <i class="material-icons right">edit</i>
+  </a>
+</div>
+
+<h6>特典</h6>
+{% if object.shop.benefit_set.all %}
+{% for benefit in object.shop.benefit_set.all %}
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">{{ benefit.starts_at }}～{{ benefit.ends_at|default:'' }}</div>
+  <div class="col s11 offset-s1 m8">{{ benefit.content }}</div>
+</div>
+{% endfor %}
+<div class="divider"></div>
+{% else %}
+<p>特典は登録されていません。</p>
+{% endif %}
+<div style="text-align: right;">
+  <a href="{% url 'shops:benefit_list' slug=object.shop.slug %}" class="waves-effect waves-light btn">
+    特典一覧を表示/修正する
+    <i class="material-icons right">edit</i>
+  </a>
+</div>
+
+<form method="POST">
+  {% csrf_token %}
+  {% form %}
+  {% endform %}
+  <div class="right">
+    <button class="btn waves-effect waves-light{% if not object.shop.contact_set.all %} disabled{% endif %}" type="submit" name="action">送信
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</form>
+{% endblock %}

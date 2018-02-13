@@ -8,6 +8,7 @@
     <script src="{% static 'material/js/jquery.js' %}"></script>
     {% include 'material/includes/material_js.html' %}
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
+    {% block headcss %}{% endblock %}
   </head>
 
   <body>
@@ -20,6 +21,9 @@
               <a href="{% url 'shops:shop_list' %}">Shop</a>
             </li>
             {% if user.is_authenticated %}
+            <li>
+              <a href="{% url 'shops:approve_waiting' %}">Wait for approval</a>
+            </li>
             <li>
               <a href="{% url 'accounts:logout' %}">{{ user }}</a>
             </li>

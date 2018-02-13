@@ -52,3 +52,10 @@ class ShopApproveRequestForm(forms.ModelForm):
     class Meta:
         model = ShopApproval
         fields = []
+
+
+class ShopApproveForm(forms.ModelForm):
+
+    class Meta:
+        model = ShopApproval
+        fields = ['approved']

@@ -67,7 +67,7 @@
 <div class="divider"></div>
 <div class="row">
   <div class="col s12 m4">{{ contact.contact_type.name }}</div>
-  <div class="col s11 offset-s1 m8">{{ contact.label }}</div>
+  <div class="col s11 offset-s1 m8">{{ contact.label }}<br>(リンク: {{ contact.href }})</div>
 </div>
 {% endfor %}
 {% else %}

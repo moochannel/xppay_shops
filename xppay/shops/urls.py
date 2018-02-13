@@ -3,13 +3,19 @@ from django.urls import path
 from .views import (
     BenefitCreate, BenefitList, BenefitUpdate, ContactCreate, ContactDelete, ContactList,
     ContactUpdate, PhotoCreate, PhotoDelete, PhotoList, ShopApprovalCancel, ShopApprovalCreate,
-    ShopApprovalHistory, ShopCreate, ShopDetail, ShopList, ShopPdf, ShopUpdate
+    ShopApprovalHistory, ShopApprovalUpdate, ShopApprovalWaitingList, ShopCreate, ShopDetail,
+    ShopList, ShopPdf, ShopUpdate
 )
 
 app_name = 'shops'
 urlpatterns = [
     path('', ShopList.as_view(), name='shop_list'),
+    path('all/', ShopList.as_view(), name='shop_list_all', kwargs={
+        'all_shop': True
+    }),
     path('add/', ShopCreate.as_view(), name='shop_add'),
+    path('waiting/', ShopApprovalWaitingList.as_view(), name='approve_waiting'),
+    path('waiting/<int:pk>/', ShopApprovalUpdate.as_view(), name='approve_update'),
     path('<slug>/', ShopDetail.as_view(), name='shop_detail'),
     path('<slug>/pdf/', ShopPdf.as_view(), name='shop_pdf'),
     path('<slug>/edit/', ShopUpdate.as_view(), name='shop_edit'),

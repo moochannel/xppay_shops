@@ -88,6 +88,15 @@ class Shop(models.Model):
         return make_qrcode_for_pdf(self.in_qrcode)
 
 
+class WaitForApprovalManager(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            models.Q(approved__in=[ShopApproval.REQUESTED, ShopApproval.EXAMINE]),
+            models.Q(canceled_at__isnull=True)
+        )
+
+
 class ShopApproval(models.Model):
     REQUESTED = 'RE'
     EXAMINE = 'EX'
@@ -119,6 +128,9 @@ class ShopApproval(models.Model):
     updated_by = models.ForeignKey(
         User, verbose_name='更新者', on_delete=models.PROTECT, related_name='update_approvals'
     )
+
+    objects = models.Manager()
+    waiting_objects = WaitForApprovalManager()
 
     def stats(self):
         if self.canceled_at:

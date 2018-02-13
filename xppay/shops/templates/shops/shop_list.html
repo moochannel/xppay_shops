@@ -4,10 +4,16 @@
 {% block title %}店舗一覧{% endblock %}
 
 {% block content %}
+<div style="text-align: right;">
+  店舗フィルタ:
+  {% if view.kwargs.all_shop %}<a href="{% url 'shops:shop_list' %}">{% endif %}承認済みのみ{% if view.kwargs.all_shop %}</a>{% endif %} /
+  {% if not view.kwargs.all_shop %}<a href="{% url 'shops:shop_list_all' %}">{% endif %}すべて{% if not view.kwargs.all_shop %}</a>{% endif %}
+</div>
+
 <h5>エリアを選択</h5>
 <ul class="collection">
   {% for area in areas %}
-  <li class="collection-item">{% if area.num_shops > 0 %}<a href="#area-{{ area.id }}">{% endif %}{{ area.name }}: {{ area.num_shops }}件{% if area.num_shops > 0 %}</a>{% endif %}</li>
+  <li class="collection-item">{% if area.active_shops %}<a href="#area-{{ area.id }}">{% endif %}{{ area.name }}: {{ area.active_shops|length }}件{% if area.active_shops %}</a>{% endif %}</li>
   {% endfor %}
 </ul>
 
