@@ -1,7 +1,7 @@
 import material
 from django import forms
 
-from .models import Benefit, Photo, Shop
+from .models import Benefit, Contact, Photo, Shop, ShopApproval
 
 
 class ShopForm(forms.ModelForm):
@@ -17,6 +17,13 @@ class ShopForm(forms.ModelForm):
                 'rows': 5
             }),
         }
+
+
+class ContactForm(forms.ModelForm):
+
+    class Meta:
+        model = Contact
+        fields = ['list_order', 'contact_type', 'label', 'href']
 
 
 class BenefitForm(forms.ModelForm):
@@ -37,6 +44,11 @@ class PhotoForm(forms.ModelForm):
         model = Photo
         fields = ['origin']
 
-    layout = material.Layout(
-        material.Row('origin'),
-    )
+    layout = material.Layout(material.Row('origin'),)
+
+
+class ShopApproveRequestForm(forms.ModelForm):
+
+    class Meta:
+        model = ShopApproval
+        fields = []

@@ -1,0 +1,36 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load shop_extras %}
+
+{% block title %}{{ shop.name }}連絡先一覧{% endblock %}
+
+{% block edit_content %}
+<h5>{{ shop.name }}の連絡先</h5>
+
+<div class="fixed-action-btn">
+  <a href="{% url 'shops:contact_add' slug=shop.slug %}" class="btn-floating btn-large waves-effect waves-light red">
+    <i class="material-icons">add</i>
+  </a>
+</div>
+
+{% if object_list %}
+<div class="row">
+  {% for contact in object_list %}
+  <div class="col s12 m2">
+    <p><a href="{% url 'shops:contact_edit' slug=shop.slug pk=contact.pk %}">{{ contact.contact_type.name }}</a></p>
+  </div>
+  <div class="col s12 m9">
+    <p><a href="{% url 'shops:contact_edit' slug=shop.slug pk=contact.pk %}">{{ contact.label }} (リンク: {{ contact.href }})</a></p>
+  </div>
+  <div class="col s1 m1">
+    <form method="POST" action="{% url 'shops:contact_del' slug=shop.slug pk=contact.pk %}">
+      {% csrf_token %}
+      <p><button class="waves-effect waves-light btn" type="submit"><i class="material-icons right">delete_forever</i></button></p>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>連絡先は登録されていません</p>
+{% endif %}
+{% endblock %}

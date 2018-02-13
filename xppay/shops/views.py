@@ -7,8 +7,8 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django_weasyprint import WeasyTemplateResponseMixin
 
-from .forms import BenefitForm, PhotoForm, ShopForm
-from .models import Area, Benefit, Photo, Shop
+from .forms import (BenefitForm, ContactForm, PhotoForm, ShopApproveRequestForm, ShopForm)
+from .models import Area, Benefit, Contact, Photo, Shop, ShopApproval
 
 
 class ShopList(ListView):
@@ -39,6 +39,11 @@ class ShopCreate(LoginRequiredMixin, CreateView):
         context['active_subtab'] = 'shop'
         return context
 
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.updated_by = self.request.user
+        return super().form_valid(form)
+
 
 class ShopUpdate(LoginRequiredMixin, UpdateView):
     raise_exception = True
@@ -50,10 +55,74 @@ class ShopUpdate(LoginRequiredMixin, UpdateView):
         context['active_subtab'] = 'shop'
         return context
 
+    def form_valid(self, form):
+        form.instance.updated_by = self.request.user
+        return super().form_valid(form)
+
 
 class ShopPdf(WeasyTemplateResponseMixin, DetailView):
     model = Shop
     template_name = 'shops/shop_pdf.html'
+
+
+class ContactList(LoginRequiredMixin, ListView):
+    raise_exception = True
+    model = Contact
+
+    def get_queryset(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return self.shop.contact_set.order_by('list_order')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = self.shop
+        context['active_subtab'] = 'contact'
+        return context
+
+
+class ContactCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
+    model = Contact
+    form_class = ContactForm
+
+    def form_valid(self, form):
+        shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        form.instance.shop = shop
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        context['active_subtab'] = 'contact'
+        return context
+
+
+class ContactUpdate(LoginRequiredMixin, UpdateView):
+    raise_exception = True
+    model = Contact
+    form_class = ContactForm
+
+    def get_queryset(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return self.shop.contact_set.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        context['active_subtab'] = 'contact'
+        return context
+
+
+class ContactDelete(LoginRequiredMixin, DeleteView):
+    raise_exception = True
+    model = Contact
+
+    def get_queryset(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return self.shop.contact_set.all()
+
+    def get_success_url(self):
+        return reverse_lazy('shops:contact_list', kwargs={'slug': self.object.shop.slug})
 
 
 class BenefitList(LoginRequiredMixin, ListView):
@@ -154,3 +223,61 @@ class PhotoDelete(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('shops:photo_list', kwargs={'slug': self.object.shop.slug})
+
+
+class ShopApprovalHistory(LoginRequiredMixin, ListView):
+    model = ShopApproval
+
+    def get_queryset(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return self.shop.approvals.order_by('-pk')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = self.shop
+        context['active_subtab'] = 'approval'
+        return context
+
+
+class ShopApprovalCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
+    model = ShopApproval
+    form_class = ShopApproveRequestForm
+    template_name = 'shops/shopapproval_req_form.html'
+
+    def form_valid(self, form):
+        shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        form.instance.shop = shop
+        form.instance.requested_by = self.request.user
+        form.instance.updated_by = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        context['active_subtab'] = 'approval'
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('shops:approve_list', kwargs={'slug': self.object.shop.slug})
+
+
+class ShopApprovalCancel(LoginRequiredMixin, UpdateView):
+    raise_exception = True
+    model = ShopApproval
+    form_class = ShopApproveRequestForm
+    template_name = 'shops/shopapproval_cancel_form.html'
+
+    def form_valid(self, form):
+        form.instance.canceled_at = timezone.now()
+        form.instance.canceled_by = form.instance.updated_by = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        context['active_subtab'] = 'approval'
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('shops:approve_list', kwargs={'slug': self.object.shop.slug})

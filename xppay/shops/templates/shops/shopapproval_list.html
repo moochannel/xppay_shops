@@ -1,0 +1,35 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load shop_extras %}
+
+{% block title %}{{ shop.name }}承認履歴{% endblock %}
+
+{% block edit_content %}
+<h5>{{ shop.name }}の承認履歴</h5>
+
+<div class="fixed-action-btn">
+  <a href="{% url 'shops:approve_add' slug=shop.slug %}" class="btn-floating btn-large waves-effect waves-light red">
+    <i class="material-icons">send</i>
+  </a>
+</div>
+
+{% if object_list %}
+<ul class="collection">
+  {% for approval in object_list %}
+  <li class="collection-item">
+    <div>
+      {{ approval.requested_at }}に{{ approval.requested_by }}が申請
+      / 状態: {{ approval.stats}}
+      {% if not approval.canceled_at %}
+      <a href="{% url 'shops:approve_cancel' slug=shop.slug pk=approval.pk %}" class="secondary-content">
+        <i class="material-icons right">cancel</i>
+      </a>
+      {% endif %}
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>この店舗の承認履歴はありません</p>
+{% endif %}
+{% endblock %}

@@ -14,14 +14,20 @@
       <div class="row">
         <div class="col s12">
           <ul class="tabs">
-            <li class="tab col s4">
+            <li class="tab col s3">
               <a href="{% url 'shops:shop_edit' slug=shop.slug %}" target="_self" {% if active_subtab == 'shop' %}class="active"{% endif %}>基本情報</a>
             </li>
-            <li class="tab col s4">
+            <li class="tab col s2">
+              <a href="{% url 'shops:contact_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'contact' %}class="active"{% endif %}>連絡先</a>
+            </li>
+            <li class="tab col s2">
               <a href="{% url 'shops:benefit_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'benefit' %}class="active"{% endif %}>特典</a>
             </li>
-            <li class="tab col s4">
+            <li class="tab col s3">
               <a href="{% url 'shops:photo_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'photo' %}class="active"{% endif %}>店舗画像</a>
+            </li>
+            <li class="tab col s2">
+              <a href="{% url 'shops:approve_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'approval' %}class="active"{% endif %}>承認</a>
             </li>
           </ul>
         </div>

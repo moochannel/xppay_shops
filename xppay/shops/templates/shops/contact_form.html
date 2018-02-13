@@ -2,7 +2,7 @@
 {% load static %}
 {% load material_form %}
 
-{% block title %}{% if shop %}{{ shop.name }}{% else %}店舗{% endif %}基本情報編集{% endblock %}
+{% block title %}{{ shop.name }}連絡先編集{% endblock %}
 
 {% block edit_content %}
 <form method="POST">
@@ -15,14 +15,4 @@
     </button>
   </div>
 </form>
-{% endblock %}
-
-{% block footjs %}
-<script>
-  $(function() {
-    $('#id_name').on('keyup', function() {
-      $('#id_slug').val($(this).val().split(' ').join('-'));
-    });
-  });
-</script>
 {% endblock %}

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -13,6 +14,15 @@ class Area(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ActiveShopManager(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            models.Q(approvals__approved=ShopApproval.APPROVED),
+            models.Q(approvals__canceled_at__isnull=True)
+        )
 
 
 class Shop(models.Model):
@@ -46,6 +56,17 @@ class Shop(models.Model):
         blank=True,
         help_text='PDF内に表示するQRコードに埋め込む文字列を指定します'
     )
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
+    created_by = models.ForeignKey(
+        User, verbose_name='作成者', on_delete=models.PROTECT, related_name='shop_creator'
+    )
+    updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
+    updated_by = models.ForeignKey(
+        User, verbose_name='更新者', on_delete=models.PROTECT, related_name='shop_updater'
+    )
+
+    objects = models.Manager()
+    active_objects = ActiveShopManager()
 
     def get_absolute_url(self):
         return reverse('shops:shop_detail', kwargs={'slug': self.slug})
@@ -67,16 +88,61 @@ class Shop(models.Model):
         return make_qrcode_for_pdf(self.in_qrcode)
 
 
+class ShopApproval(models.Model):
+    REQUESTED = 'RE'
+    EXAMINE = 'EX'
+    APPROVED = 'AP'
+    DENIED = 'DE'
+    APPROVAL_CHOICES = (
+        (REQUESTED, '申請済み'),
+        (EXAMINE, '審査中'),
+        (APPROVED, '承認'),
+        (DENIED, '否認'),
+    )
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='approvals')
+    requested_at = models.DateTimeField(verbose_name='申請日時', auto_now_add=True)
+    requested_by = models.ForeignKey(
+        User, verbose_name='申請者', on_delete=models.PROTECT, related_name='request_approvals'
+    )
+    canceled_at = models.DateTimeField(verbose_name='取り下げ・取消日時', null=True)
+    canceled_by = models.ForeignKey(
+        User,
+        verbose_name='取消者',
+        null=True,
+        on_delete=models.PROTECT,
+        related_name='canceled_approvals'
+    )
+    approved = models.CharField(
+        verbose_name='承認結果', max_length=2, choices=APPROVAL_CHOICES, default=REQUESTED
+    )
+    updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
+    updated_by = models.ForeignKey(
+        User, verbose_name='更新者', on_delete=models.PROTECT, related_name='update_approvals'
+    )
+
+    def stats(self):
+        if self.canceled_at:
+            return '取り下げ'
+        else:
+            return self.get_approved_display()
+
+
 class ContactType(models.Model):
     name = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
 
 
 class Contact(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    list_order = models.IntegerField()
-    contact_type = models.ForeignKey(ContactType, on_delete=models.PROTECT)
-    label = models.CharField(max_length=100)
-    href = models.CharField(max_length=300, blank=True, null=True)
+    list_order = models.IntegerField(verbose_name='表示優先順', help_text='数値の低い方が優先されます')
+    contact_type = models.ForeignKey(ContactType, on_delete=models.PROTECT, verbose_name='連絡方法')
+    label = models.CharField(verbose_name='表示名', max_length=100)
+    href = models.CharField(verbose_name='リンク', max_length=300, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('shops:contact_list', kwargs={'slug': self.shop.slug})
 
 
 class Benefit(models.Model):

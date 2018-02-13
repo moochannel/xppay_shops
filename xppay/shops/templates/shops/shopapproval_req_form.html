@@ -1,0 +1,87 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load material_form %}
+
+{% block title %}{{ shop.name }}承認申請{% endblock %}
+
+{% block edit_content %}
+<h5>承認申請</h5>
+<p>下記の内容で承認申請します。</p>
+
+<h6>基本情報</h6>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">店舗名</div>
+  <div class="col s11 offset-s1 m8">{{ shop.name }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">URL(スラッグ)</div>
+  <div class="col s11 offset-s1 m8">{% url 'shops:shop_detail' slug=shop.slug %}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">支払先Discordアカウント</div>
+  <div class="col s11 offset-s1 m8">{{ shop.discord_for_payment }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">紹介文</div>
+  <div class="col s11 offset-s1 m8">{{ shop.business_description }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">地域</div>
+  <div class="col s11 offset-s1 m8">{{ shop.area.name }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">郵便番号</div>
+  <div class="col s11 offset-s1 m8">{{ shop.zipcode }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">住所1</div>
+  <div class="col s11 offset-s1 m8">{{ shop.address1 }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">住所2</div>
+  <div class="col s11 offset-s1 m8">{{ shop.address2 }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">店舗地図URL</div>
+  <div class="col s11 offset-s1 m8">{{ shop.map_url }}</div>
+</div>
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">QRコード用文字列</div>
+  <div class="col s11 offset-s1 m8">{{ shop.in_qrcode }}</div>
+</div>
+<div class="divider"></div>
+
+<h6>連絡先</h6>
+{% if shop.contact_set.all %}
+{% for contact in shop.contact_set.all %}
+<div class="divider"></div>
+<div class="row">
+  <div class="col s12 m4">{{ contact.contact_type.name }}</div>
+  <div class="col s11 offset-s1 m8">{{ contact.label }}</div>
+</div>
+{% endfor %}
+{% else %}
+<p>連絡先の登録がありませんので、掲載は承認されません。</p>
+{% endif %}
+
+<form method="POST">
+  {% csrf_token %}
+  {% form %}
+  {% endform %}
+  <div class="right">
+    <button class="btn waves-effect waves-light{% if not shop.contact_set.all %} disabled{% endif %}" type="submit" name="action">送信
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</form>
+{% endblock %}
