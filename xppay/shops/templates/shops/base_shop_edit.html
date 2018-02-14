@@ -36,6 +36,8 @@
 {% block edit_content %}{% endblock %}
 <script>
   var tab_elem = document.querySelector('ul.tabs');
-  var instance = M.Tabs.init(tab_elem);
+  if (tab_elem) {
+    var tab_instance = M.Tabs.init(tab_elem);
+  }
 </script>
 {% endblock %}

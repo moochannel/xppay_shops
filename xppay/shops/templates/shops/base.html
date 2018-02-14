@@ -30,6 +30,12 @@
       {% endif %}
     </ul>
 
+    <ul id="user_menu" class="dropdown-content">
+      <li><a href="#!" class="disabled">{{ user }}</a></li>
+      <li class="divider"></li>
+      <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+    </ul>
+
     <nav class="nav-extended">
       <div class="nav-wrapper">
         <div class="container">
@@ -44,7 +50,9 @@
               <a href="{% url 'shops:approve_waiting' %}">承認待ち</a>
             </li>
             <li>
-              <a href="{% url 'accounts:logout' %}">{{ user }}</a>
+              <a href="#!" class="dropdown-trigger" data-target="user_menu">
+                {{ user }}<i class="material-icons right">arrow_drop_down</i>
+              </a>
             </li>
             {% else %}
             <li>
@@ -75,6 +83,10 @@
     var fab_elem = document.querySelector('.fixed-action-btn');
     if (fab_elem) {
       var fab_instance = M.FloatingActionButton.init(fab_elem);
+    }
+    var dropdown_menu_elem = document.querySelector('.dropdown-trigger');
+    if (dropdown_menu_elem) {
+      var dropdown_instance = M.Dropdown.init(dropdown_menu_elem);
     }
   </script>
   {% block footjs %}{% endblock %}
