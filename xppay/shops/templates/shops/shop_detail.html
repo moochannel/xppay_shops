@@ -79,8 +79,10 @@
     fullWidth: true,
     indicators: true
   });
-  setInterval(function() {
-    instance.next()
-  }, 5000);
+  if (document.querySelectorAll('.carousel-item').length > 1) {
+    setInterval(function() {
+      instance.next()
+    }, 5000);
+  }
 </script>
 {% endblock %}
