@@ -129,6 +129,11 @@ class ShopApproval(models.Model):
         User, verbose_name='更新者', on_delete=models.PROTECT, related_name='update_approvals'
     )
 
+    class Meta:
+        permissions = (
+            ('can_approve', 'Can approve shop'),
+        )
+
     objects = models.Manager()
     waiting_objects = WaitForApprovalManager()
 

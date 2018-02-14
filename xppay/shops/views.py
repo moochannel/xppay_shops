@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import (LoginRequiredMixin, PermissionRequiredMixin)
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -34,9 +34,9 @@ class ShopDetail(DetailView):
 
 
 class ShopCreate(LoginRequiredMixin, CreateView):
-    raise_exception = True
     model = Shop
     form_class = ShopForm
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,9 +50,9 @@ class ShopCreate(LoginRequiredMixin, CreateView):
 
 
 class ShopUpdate(LoginRequiredMixin, UpdateView):
-    raise_exception = True
     model = Shop
     form_class = ShopForm
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,8 +70,8 @@ class ShopPdf(WeasyTemplateResponseMixin, DetailView):
 
 
 class ContactList(LoginRequiredMixin, ListView):
-    raise_exception = True
     model = Contact
+    raise_exception = True
 
     def get_queryset(self):
         self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
@@ -85,9 +85,9 @@ class ContactList(LoginRequiredMixin, ListView):
 
 
 class ContactCreate(LoginRequiredMixin, CreateView):
-    raise_exception = True
     model = Contact
     form_class = ContactForm
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -102,9 +102,9 @@ class ContactCreate(LoginRequiredMixin, CreateView):
 
 
 class ContactUpdate(LoginRequiredMixin, UpdateView):
-    raise_exception = True
     model = Contact
     form_class = ContactForm
+    raise_exception = True
 
     def get_queryset(self):
         self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
@@ -118,8 +118,8 @@ class ContactUpdate(LoginRequiredMixin, UpdateView):
 
 
 class ContactDelete(LoginRequiredMixin, DeleteView):
-    raise_exception = True
     model = Contact
+    raise_exception = True
 
     def get_queryset(self):
         self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
@@ -130,8 +130,8 @@ class ContactDelete(LoginRequiredMixin, DeleteView):
 
 
 class BenefitList(LoginRequiredMixin, ListView):
-    raise_exception = True
     model = Benefit
+    raise_exception = True
 
     def get_queryset(self):
         self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
@@ -153,9 +153,9 @@ class BenefitList(LoginRequiredMixin, ListView):
 
 
 class BenefitCreate(LoginRequiredMixin, CreateView):
-    raise_exception = True
     model = Benefit
     form_class = BenefitForm
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -170,9 +170,9 @@ class BenefitCreate(LoginRequiredMixin, CreateView):
 
 
 class BenefitUpdate(LoginRequiredMixin, UpdateView):
-    raise_exception = True
     model = Benefit
     form_class = BenefitForm
+    raise_exception = True
 
     def get_queryset(self):
         self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
@@ -186,8 +186,8 @@ class BenefitUpdate(LoginRequiredMixin, UpdateView):
 
 
 class PhotoList(LoginRequiredMixin, ListView):
-    raise_exception = True
     model = Photo
+    raise_exception = True
 
     def get_queryset(self):
         self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
@@ -201,9 +201,9 @@ class PhotoList(LoginRequiredMixin, ListView):
 
 
 class PhotoCreate(LoginRequiredMixin, CreateView):
-    raise_exception = True
     model = Photo
     form_class = PhotoForm
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -218,8 +218,8 @@ class PhotoCreate(LoginRequiredMixin, CreateView):
 
 
 class PhotoDelete(LoginRequiredMixin, DeleteView):
-    raise_exception = True
     model = Photo
+    raise_exception = True
 
     def get_queryset(self):
         self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
@@ -229,8 +229,10 @@ class PhotoDelete(LoginRequiredMixin, DeleteView):
         return reverse_lazy('shops:photo_list', kwargs={'slug': self.object.shop.slug})
 
 
-class ShopApprovalWaitingList(LoginRequiredMixin, ListView):
+class ShopApprovalWaitingList(PermissionRequiredMixin, ListView):
     model = ShopApproval
+    permission_required = ('shops.can_approve')
+    raise_exception = True
 
     def get_queryset(self):
         return ShopApproval.waiting_objects.order_by('-updated_at')
@@ -252,10 +254,10 @@ class ShopApprovalHistory(LoginRequiredMixin, ListView):
 
 
 class ShopApprovalCreate(LoginRequiredMixin, CreateView):
-    raise_exception = True
     model = ShopApproval
     form_class = ShopApproveRequestForm
     template_name = 'shops/shopapproval_req_form.html'
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -274,10 +276,11 @@ class ShopApprovalCreate(LoginRequiredMixin, CreateView):
         return reverse_lazy('shops:approve_list', kwargs={'slug': self.object.shop.slug})
 
 
-class ShopApprovalUpdate(LoginRequiredMixin, UpdateView):
-    raise_exception = True
+class ShopApprovalUpdate(PermissionRequiredMixin, UpdateView):
     model = ShopApproval
     form_class = ShopApproveForm
+    permission_required = ('shops.can_approve')
+    raise_exception = True
 
     def form_valid(self, form):
         form.instance.updated_by = self.request.user
@@ -288,10 +291,10 @@ class ShopApprovalUpdate(LoginRequiredMixin, UpdateView):
 
 
 class ShopApprovalCancel(LoginRequiredMixin, UpdateView):
-    raise_exception = True
     model = ShopApproval
     form_class = ShopApproveRequestForm
     template_name = 'shops/shopapproval_cancel_form.html'
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
