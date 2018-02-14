@@ -74,13 +74,13 @@
 
 {% block footjs %}
 <script>
-  $(function(){
-    $('.carousel.carousel-slider').carousel({fullWidth: true, indicators: true});
-    if ($('.carousel.carousel-slider > .carousel-item').length > 1) {
-      setInterval(function() {
-        $('.carousel.carousel-slider').carousel('next')
-      }, 5000);
-    }
+  var elem = document.querySelector('.carousel.carousel-slider');
+  var instance = M.Carousel.init(elem, {
+    fullWidth: true,
+    indicators: true
   });
+  setInterval(function() {
+    instance.next()
+  }, 5000);
 </script>
 {% endblock %}

@@ -19,10 +19,10 @@
 
 {% block footjs %}
 <script>
-  $(function() {
-    $('#id_name').on('keyup', function() {
-      $('#id_slug').val($(this).val().split(' ').join('-'));
-    });
+  var name_box = document.querySelector('#id_name');
+  var slug_box = document.querySelector('#id_slug');
+  name_box.addEventListener('keyup', function(event) {
+    slug_box.value = this.value.split(' ').join('-');
   });
 </script>
 {% endblock %}

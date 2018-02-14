@@ -14,22 +14,26 @@
 </div>
 
 {% if object_list %}
+{% for contact in object_list %}
 <div class="row">
-  {% for contact in object_list %}
   <div class="col s12 m2">
     <p><a href="{% url 'shops:contact_edit' slug=shop.slug pk=contact.pk %}">{{ contact.contact_type.name }}</a></p>
   </div>
-  <div class="col s12 m9">
-    <p><a href="{% url 'shops:contact_edit' slug=shop.slug pk=contact.pk %}">{{ contact.label }} (リンク: {{ contact.href }})</a></p>
+  <div class="col s12 m8">
+    <p><a href="{% url 'shops:contact_edit' slug=shop.slug pk=contact.pk %}">{{ contact.label }}<br>(リンク: {{ contact.href }})</a></p>
   </div>
-  <div class="col s1 m1">
+  <div class="col s12 m2">
     <form method="POST" action="{% url 'shops:contact_del' slug=shop.slug pk=contact.pk %}">
       {% csrf_token %}
-      <p><button class="waves-effect waves-light btn" type="submit"><i class="material-icons right">delete_forever</i></button></p>
+      <p>
+        <button class="waves-effect waves-light btn" type="submit">削除
+          <i class="material-icons right">delete_forever</i>
+        </button>
+      </p>
     </form>
   </div>
-  {% endfor %}
 </div>
+{% endfor %}
 {% else %}
 <p>連絡先は登録されていません</p>
 {% endif %}

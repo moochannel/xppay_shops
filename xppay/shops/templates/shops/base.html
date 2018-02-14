@@ -12,17 +12,36 @@
   </head>
 
   <body>
+    <ul id="slide-out" class="sidenav">
+      <li>
+        <div class="user-view" style="height: 200px;">
+          <div class="background">
+            <img src="{% static 'shops/xp-man-1.png' %}" style="width: 100%;">
+          </div>
+          <span class="white-text name">{{ user }}</span></a>
+        </div>
+      </li>
+      <li><a href="{% url 'shops:shop_list' %}">店舗</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'shops:approve_waiting' %}">承認待ち</a></li>
+      <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+      {% else %}
+      <li><a href="{% url 'social:begin' 'discord' %}">Login with Discord</a></li>
+      {% endif %}
+    </ul>
+
     <nav class="nav-extended">
       <div class="nav-wrapper">
         <div class="container">
+          <a href="#" data-target="slide-out" class="sidenav-trigger show-on-med-and-down"><i class="material-icons">menu</i></a>
           <a href="{% url 'shops:shop_list' %}" class="brand-logo">XPpay SHOPS</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li class="active">
-              <a href="{% url 'shops:shop_list' %}">Shop</a>
+              <a href="{% url 'shops:shop_list' %}">店舗</a>
             </li>
             {% if user.is_authenticated %}
             <li>
-              <a href="{% url 'shops:approve_waiting' %}">Wait for approval</a>
+              <a href="{% url 'shops:approve_waiting' %}">承認待ち</a>
             </li>
             <li>
               <a href="{% url 'accounts:logout' %}">{{ user }}</a>
@@ -48,5 +67,15 @@
       {% block content %}{% endblock %}
     </div>
   </body>
+  <script>
+    var sidenav_elem = document.querySelector('.sidenav');
+    var instance = M.Sidenav.init(sidenav_elem, {
+      draggable: true,
+    });
+    var fab_elem = document.querySelector('.fixed-action-btn');
+    if (fab_elem) {
+      var fab_instance = M.FloatingActionButton.init(fab_elem);
+    }
+  </script>
   {% block footjs %}{% endblock %}
 </html>
