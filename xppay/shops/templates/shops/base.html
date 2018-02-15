@@ -14,11 +14,15 @@
   <body>
     <ul id="slide-out" class="sidenav">
       <li>
-        <div class="user-view" style="height: 200px;">
+        <div class="user-view">
           <div class="background">
-            <img src="{% static 'shops/xp-man-1.png' %}" style="width: 100%;">
+            <img src="{% static 'shops/xp-man-1.png' %}" style="width: 100%;" class="blue-grey darken-1">
           </div>
-          <span class="white-text name">{{ user }}</span></a>
+          {% if user.avatar_hash %}
+          <img class="circle" src="https://cdn.discordapp.com/avatars/{{ user.discord_id }}/{{ user.avatar_hash }}.png">
+          {% endif %}
+          <span class="white-text name">{{ user.username }}</span></a>
+          <span class="white-text email">{{ user.email }}</span></a>
         </div>
       </li>
       <li><a href="{% url 'shops:shop_list' %}">店舗</a></li>
@@ -55,7 +59,10 @@
             {% endif %}
             <li>
               <a href="#!" class="dropdown-trigger" data-target="user_menu">
-                {{ user }}<i class="material-icons right">arrow_drop_down</i>
+                {% if user.avatar_hash %}
+                <img class="circle" src="https://cdn.discordapp.com/avatars/{{ user.discord_id }}/{{ user.avatar_hash }}.png" style="width: 2.5rem; margin-right: 0.5rem; vertical-align: middle;">
+                {% endif %}
+                <div class="right">{{ user.username }}<i class="material-icons right">arrow_drop_down</i></div>
               </a>
             </li>
             {% else %}

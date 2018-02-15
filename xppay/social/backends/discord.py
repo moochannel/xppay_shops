@@ -12,10 +12,13 @@ class DiscordOAuth2(BaseOAuth2):
 
     def get_user_details(self, response):
         return {
-            'username': response.get('username'),
+            'username': '#'.join([response.get('username'),
+                                  response.get('discriminator')]),
             'email': response.get('email'),
             'first_name': '',
-            'last_name': ''
+            'last_name': '',
+            'discord_id': response.get('id'),
+            'avatar_hash': response.get('avatar'),
         }
 
     def user_data(self, access_token, *args, **kwargs):

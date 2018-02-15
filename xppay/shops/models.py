@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -41,14 +41,12 @@ class Shop(models.Model):
     slug = models.SlugField(
         verbose_name='スラッグ',
         allow_unicode=True,
-        default='',
         unique=True,
         help_text='URLで店舗を識別するための単語を指定します'
     )
     discord_for_payment = models.CharField(
         verbose_name='支払先Discordアカウント',
         max_length=100,
-        default='@',
         help_text='XPpayでの支払先に使用するDiscordアカウント名を指定します'
     )
     in_qrcode = models.CharField(
@@ -59,13 +57,21 @@ class Shop(models.Model):
     )
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
     created_by = models.ForeignKey(
-        User, verbose_name='作成者', on_delete=models.PROTECT, related_name='shop_creator'
+        settings.AUTH_USER_MODEL,
+        verbose_name='作成者',
+        on_delete=models.PROTECT,
+        related_name='shop_creator'
     )
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
     updated_by = models.ForeignKey(
-        User, verbose_name='更新者', on_delete=models.PROTECT, related_name='shop_updater'
+        settings.AUTH_USER_MODEL,
+        verbose_name='更新者',
+        on_delete=models.PROTECT,
+        related_name='shop_updater'
     )
-    staffs = models.ManyToManyField(User, through='Employment', through_fields=('shop', 'staff'))
+    staffs = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, through='Employment', through_fields=('shop', 'staff')
+    )
 
     objects = models.Manager()
     active_objects = ActiveShopManager()
@@ -114,11 +120,14 @@ class ShopApproval(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='approvals')
     requested_at = models.DateTimeField(verbose_name='申請日時', auto_now_add=True)
     requested_by = models.ForeignKey(
-        User, verbose_name='申請者', on_delete=models.PROTECT, related_name='request_approvals'
+        settings.AUTH_USER_MODEL,
+        verbose_name='申請者',
+        on_delete=models.PROTECT,
+        related_name='request_approvals'
     )
     canceled_at = models.DateTimeField(verbose_name='取り下げ・取消日時', null=True)
     canceled_by = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         verbose_name='取消者',
         null=True,
         on_delete=models.PROTECT,
@@ -129,7 +138,10 @@ class ShopApproval(models.Model):
     )
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
     updated_by = models.ForeignKey(
-        User, verbose_name='更新者', on_delete=models.PROTECT, related_name='update_approvals'
+        settings.AUTH_USER_MODEL,
+        verbose_name='更新者',
+        on_delete=models.PROTECT,
+        related_name='update_approvals'
     )
 
     class Meta:
@@ -224,8 +236,13 @@ class Photo(models.Model):
 
 class Employment(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    staff = models.ForeignKey(User, on_delete=models.CASCADE, related_name='belongs')
+    staff = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='belongs'
+    )
     invited_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, related_name='staff_invides'
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='staff_invides'
     )
     invited_at = models.DateTimeField(verbose_name='招待日時', null=True)
