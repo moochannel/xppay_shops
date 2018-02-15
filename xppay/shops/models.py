@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 
@@ -64,6 +65,7 @@ class Shop(models.Model):
     updated_by = models.ForeignKey(
         User, verbose_name='更新者', on_delete=models.PROTECT, related_name='shop_updater'
     )
+    staffs = models.ManyToManyField(User, through='Employment', through_fields=('shop', 'staff'))
 
     objects = models.Manager()
     active_objects = ActiveShopManager()
@@ -71,6 +73,7 @@ class Shop(models.Model):
     def get_absolute_url(self):
         return reverse('shops:shop_detail', kwargs={'slug': self.slug})
 
+    @cached_property
     def benefits_available(self, when=None):
         if when:
             basis_dt = when
@@ -130,9 +133,7 @@ class ShopApproval(models.Model):
     )
 
     class Meta:
-        permissions = (
-            ('can_approve', 'Can approve shop'),
-        )
+        permissions = (('can_approve', 'Can approve shop'),)
 
     objects = models.Manager()
     waiting_objects = WaitForApprovalManager()
@@ -219,3 +220,12 @@ class Photo(models.Model):
         except BaseException:
             print(f'error occured on delete origin file: {path}')
             raise
+
+
+class Employment(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    staff = models.ForeignKey(User, on_delete=models.CASCADE, related_name='belongs')
+    invited_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name='staff_invides'
+    )
+    invited_at = models.DateTimeField(verbose_name='招待日時', null=True)
