@@ -4,7 +4,7 @@ from .views import (
     BenefitCancel, BenefitCreate, BenefitDelete, BenefitList, BenefitUpdate, ContactCreate,
     ContactDelete, ContactList, ContactUpdate, PhotoCreate, PhotoDelete, PhotoList,
     ShopApprovalCancel, ShopApprovalCreate, ShopApprovalHistory, ShopApprovalUpdate,
-    ShopApprovalWaitingList, ShopCreate, ShopDetail, ShopList, ShopPdf, ShopUpdate
+    ShopApprovalWaitingList, ShopCreate, ShopDetail, ShopList, ShopPdf, ShopUpdate, StaffList
 )
 
 app_name = 'shops'
@@ -31,6 +31,7 @@ urlpatterns = [
     path('<slug>/photos/', PhotoList.as_view(), name='photo_list'),
     path('<slug>/photos/add/', PhotoCreate.as_view(), name='photo_add'),
     path('<slug>/photos/<int:pk>/del/', PhotoDelete.as_view(), name='photo_del'),
+    path('<slug>/staffs/', StaffList.as_view(), name='staff_list'),
     path('<slug>/approvals/', ShopApprovalHistory.as_view(), name='approve_list'),
     path('<slug>/approvals/add/', ShopApprovalCreate.as_view(), name='approve_add'),
     path('<slug>/approvals/<int:pk>/cancel/', ShopApprovalCancel.as_view(), name='approve_cancel'),

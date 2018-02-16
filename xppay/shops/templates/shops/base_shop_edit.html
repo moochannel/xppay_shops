@@ -27,6 +27,9 @@
               <a href="{% url 'shops:photo_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'photo' %}class="active"{% endif %}>店舗画像</a>
             </li>
             <li class="tab col">
+              <a href="{% url 'shops:staff_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'staff' %}class="active"{% endif %}>スタッフ</a>
+            </li>
+            <li class="tab col">
               <a href="{% url 'shops:approve_list' slug=shop.slug %}" target="_self" {% if active_subtab == 'approval' %}class="active"{% endif %}>承認</a>
             </li>
           </ul>

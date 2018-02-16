@@ -423,3 +423,22 @@ class ShopApprovalCancel(UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('shops:approve_list', kwargs={'slug': self.object.shop.slug})
+
+
+class StaffList(UserPassesTestMixin, ListView):
+    model = Employment
+    template_name = 'shops/staff_list.html'
+    raise_exception = True
+
+    def test_func(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return can_edit_shop(self, self.shop)
+
+    def get_queryset(self):
+        return self.shop.staffs.order_by('pk')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = self.shop
+        context['active_subtab'] = 'staff'
+        return context
