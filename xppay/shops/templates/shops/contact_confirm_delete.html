@@ -1,0 +1,31 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load material_form %}
+
+{% block title %}{{ shop.name }}連絡先削除{% endblock %}
+
+{% block edit_content %}
+<h5>連絡先削除</h5>
+<p>店舗{{ shop.name }}から連絡先を削除します。</p>
+
+<div class="row">
+  <div class="col s12 m2">
+    <p>{{ object.contact_type.name }}</p>
+  </div>
+  <div class="col s12 m10">
+    <p>{{ object.label }}<br>(リンク: {{ object.href }})</p>
+  </div>
+</div>
+
+
+<form method="POST">
+  {% csrf_token %}
+  {% form %}
+  {% endform %}
+  <div class="right">
+    <button class="btn waves-effect waves-light" type="submit" name="action">送信
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</form>
+{% endblock %}

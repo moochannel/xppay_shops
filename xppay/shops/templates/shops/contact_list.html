@@ -23,14 +23,11 @@
     <p><a href="{% url 'shops:contact_edit' slug=shop.slug pk=contact.pk %}">{{ contact.label }}<br>(リンク: {{ contact.href }})</a></p>
   </div>
   <div class="col s12 m2">
-    <form method="POST" action="{% url 'shops:contact_del' slug=shop.slug pk=contact.pk %}">
-      {% csrf_token %}
-      <p>
-        <button class="waves-effect waves-light btn" type="submit">削除
-          <i class="material-icons right">delete_forever</i>
-        </button>
-      </p>
-    </form>
+    <div class="right">
+      <a href="{% url 'shops:contact_del' slug=shop.slug pk=contact.pk %}" class="waves-effect waves-light btn-floating orange darken-1">
+        <i class="material-icons right">delete_forever</i>
+      </a>
+    </div>
   </div>
 </div>
 {% endfor %}

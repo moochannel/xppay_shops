@@ -22,7 +22,7 @@
       <div class="card-image">
         <form method="POST" action="{% url 'shops:photo_del' slug=shop.slug pk=image.pk %}">
           {% csrf_token %}
-          <button type="submit" class="btn-floating btn-small waves-effect waves-light red" style="position: absolute; top: 1rem; right: 1rem;"><i class="material-icons">delete</i></button>
+          <button type="submit" class="btn-floating btn-small waves-effect waves-light orange darken-1" style="position: absolute; top: 1rem; right: 1rem;"><i class="material-icons">delete</i></button>
         </form>
         <img src="{{ image.thumbnail.url }}" >
       </div>
