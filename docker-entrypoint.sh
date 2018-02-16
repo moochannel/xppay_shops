@@ -11,7 +11,6 @@ _update_data() {
     python manage.py collectstatic --noinput
     python manage.py loaddata areas.yaml
     python manage.py loaddata contact_types.yaml
-    python manage.py loaddata demo-shops.yaml
 	echo "done"
 }
 
