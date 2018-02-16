@@ -260,3 +260,9 @@ class Employment(models.Model):
         related_name='staff_invides'
     )
     invited_at = models.DateTimeField(verbose_name='招待日時', null=True)
+
+    class Meta:
+        unique_together = ('shop', 'staff')
+
+    def get_absolute_url(self):
+        return reverse('shops:staff_list', kwargs={'slug': self.shop.slug})

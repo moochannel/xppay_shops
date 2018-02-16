@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 )
-from django.db import models
+from django.db import IntegrityError, models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -11,7 +11,7 @@ from django_weasyprint import WeasyTemplateResponseMixin
 
 from .forms import (
     BenefitCancelForm, BenefitForm, ContactForm, PhotoForm, ShopApproveForm,
-    ShopApproveRequestForm, ShopForm
+    ShopApproveRequestForm, ShopForm, StaffForm
 )
 from .models import (Area, Benefit, Contact, Employment, Photo, Shop, ShopApproval)
 
@@ -425,8 +425,9 @@ class ShopApprovalCancel(UserPassesTestMixin, UpdateView):
         return reverse_lazy('shops:approve_list', kwargs={'slug': self.object.shop.slug})
 
 
-class StaffList(UserPassesTestMixin, ListView):
+class StaffList(UserPassesTestMixin, CreateView):
     model = Employment
+    form_class = StaffForm
     template_name = 'shops/staff_list.html'
     raise_exception = True
 
@@ -442,3 +443,33 @@ class StaffList(UserPassesTestMixin, ListView):
         context['shop'] = self.shop
         context['active_subtab'] = 'staff'
         return context
+
+    def form_valid(self, form):
+        form.instance.shop = self.shop
+        form.instance.invited_by = self.request.user
+        form.instance.invited_at = timezone.now()
+        try:
+            return super().form_valid(form)
+        except IntegrityError as err:
+            form.add_error('staff', '既に追加されています')
+            return super().form_invalid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('shops:staff_list', kwargs={'slug': self.shop.slug})
+
+
+class StaffDelete(UserPassesTestMixin, DeleteView):
+    model = Employment
+    form_class = StaffForm
+    template_name = 'shops/staff_remove_form.html'
+    raise_exception = True
+
+    def test_func(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return can_edit_shop(self, self.shop)
+
+    def get_queryset(self):
+        return self.shop.employment_set.all()
+
+    def get_success_url(self):
+        return reverse_lazy('shops:staff_list', kwargs={'slug': self.shop.slug})

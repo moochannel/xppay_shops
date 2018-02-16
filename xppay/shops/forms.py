@@ -1,7 +1,7 @@
 import material
 from django import forms
 
-from .models import Benefit, Contact, Photo, Shop, ShopApproval
+from .models import Benefit, Contact, Employment, Photo, Shop, ShopApproval
 
 
 class ShopForm(forms.ModelForm):
@@ -72,3 +72,12 @@ class ShopApproveForm(forms.ModelForm):
         if (cleaned_data.get('approved') == ShopApproval.APPROVED and
                 not (cleaned_data.get('in_qrcode'))):
             self.add_error('in_qrcode', '承認を選ぶ場合はQRコード用文字列を入力してください')
+
+
+class StaffForm(forms.ModelForm):
+
+    class Meta:
+        model = Employment
+        fields = ['staff']
+
+    layout = material.Layout(material.Fieldset('スタッフ追加', material.Row('staff')),)
