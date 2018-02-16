@@ -277,8 +277,10 @@ class BenefitDelete(UserPassesTestMixin, DeleteView):
         return reverse_lazy('shops:benefit_list', kwargs={'slug': self.object.shop.slug})
 
 
-class PhotoList(UserPassesTestMixin, ListView):
+class PhotoList(UserPassesTestMixin, CreateView):
     model = Photo
+    form_class = PhotoForm
+    template_name = 'shops/photo_list.html'
     raise_exception = True
 
     def test_func(self):
@@ -287,22 +289,6 @@ class PhotoList(UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         return self.shop.photo_set.all()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['shop'] = self.shop
-        context['active_subtab'] = 'photo'
-        return context
-
-
-class PhotoCreate(UserPassesTestMixin, CreateView):
-    model = Photo
-    form_class = PhotoForm
-    raise_exception = True
-
-    def test_func(self):
-        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
-        return can_edit_shop(self, self.shop)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

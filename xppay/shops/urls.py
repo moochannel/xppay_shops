@@ -2,10 +2,9 @@ from django.urls import path
 
 from .views import (
     BenefitCancel, BenefitCreate, BenefitDelete, BenefitList, BenefitUpdate, ContactCreate,
-    ContactDelete, ContactList, ContactUpdate, PhotoCreate, PhotoDelete, PhotoList,
-    ShopApprovalCancel, ShopApprovalCreate, ShopApprovalHistory, ShopApprovalUpdate,
-    ShopApprovalWaitingList, ShopCreate, ShopDetail, ShopList, ShopPdf, ShopUpdate, StaffDelete,
-    StaffList
+    ContactDelete, ContactList, ContactUpdate, PhotoDelete, PhotoList, ShopApprovalCancel,
+    ShopApprovalCreate, ShopApprovalHistory, ShopApprovalUpdate, ShopApprovalWaitingList,
+    ShopCreate, ShopDetail, ShopList, ShopPdf, ShopUpdate, StaffDelete, StaffList
 )
 
 app_name = 'shops'
@@ -30,7 +29,6 @@ urlpatterns = [
     path('<slug>/benefits/<int:pk>/cancel/', BenefitCancel.as_view(), name='benefit_cancel'),
     path('<slug>/benefits/<int:pk>/del/', BenefitDelete.as_view(), name='benefit_del'),
     path('<slug>/photos/', PhotoList.as_view(), name='photo_list'),
-    path('<slug>/photos/add/', PhotoCreate.as_view(), name='photo_add'),
     path('<slug>/photos/<int:pk>/del/', PhotoDelete.as_view(), name='photo_del'),
     path('<slug>/staffs/', StaffList.as_view(), name='staff_list'),
     path('<slug>/staffs/<int:pk>/del/', StaffDelete.as_view(), name='staff_del'),
