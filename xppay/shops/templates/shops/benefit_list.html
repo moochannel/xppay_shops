@@ -33,7 +33,22 @@
     <tr>
       <td>{{ benefit.starts_at }}</td>
       <td>{{ benefit.ends_at|default:'' }}</td>
-      <td><a href="{% url 'shops:benefit_edit' slug=shop.slug pk=benefit.pk %}">{{ benefit.content }}</a></td>
+      <td>
+        <a href="{% url 'shops:benefit_edit' slug=shop.slug pk=benefit.pk %}">{{ benefit.content }}</a>
+        {% if state == 1 %}
+        <div class="right">
+          <a href="{% url 'shops:benefit_cancel' slug=shop.slug pk=benefit.pk %}" class="waves-effect waves-light btn-floating lime darken-1">
+            <i class="material-icons right">block</i>
+          </a>
+        </div>
+        {% else %}
+        <div class="right">
+          <a href="{% url 'shops:benefit_del' slug=shop.slug pk=benefit.pk %}" class="waves-effect waves-light btn-floating orange darken-1">
+            <i class="material-icons right">delete_forever</i>
+          </a>
+        </div>
+        {% endif %}
+      </td>
     </tr>
     {% endfor %}
   </tbody>

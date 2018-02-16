@@ -10,7 +10,8 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from .forms import (
-    BenefitForm, ContactForm, PhotoForm, ShopApproveForm, ShopApproveRequestForm, ShopForm
+    BenefitCancelForm, BenefitForm, ContactForm, PhotoForm, ShopApproveForm,
+    ShopApproveRequestForm, ShopForm
 )
 from .models import (Area, Benefit, Contact, Employment, Photo, Shop, ShopApproval)
 
@@ -233,6 +234,47 @@ class BenefitUpdate(UserPassesTestMixin, UpdateView):
         context['shop'] = self.shop
         context['active_subtab'] = 'benefit'
         return context
+
+
+class BenefitCancel(UserPassesTestMixin, UpdateView):
+    model = Benefit
+    form_class = BenefitCancelForm
+    template_name = 'shops/benefit_cancel_form.html'
+    raise_exception = True
+
+    def test_func(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return can_edit_shop(self, self.shop)
+
+    def get_queryset(self):
+        return self.shop.benefit_set.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = self.shop
+        context['active_subtab'] = 'benefit'
+        return context
+
+    def form_valid(self, form):
+        form.instance.ends_at = timezone.now()
+        form.instance.updated_by = self.request.user
+        return super().form_valid(form)
+
+
+class BenefitDelete(UserPassesTestMixin, DeleteView):
+    model = Benefit
+    template_name = 'shops/benefit_delete_form.html'
+    raise_exception = True
+
+    def test_func(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return can_edit_shop(self, self.shop)
+
+    def get_queryset(self):
+        return self.shop.benefit_set.all()
+
+    def get_success_url(self):
+        return reverse_lazy('shops:benefit_list', kwargs={'slug': self.object.shop.slug})
 
 
 class PhotoList(UserPassesTestMixin, ListView):

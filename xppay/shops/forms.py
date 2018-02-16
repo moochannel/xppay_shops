@@ -38,6 +38,13 @@ class BenefitForm(forms.ModelForm):
     )
 
 
+class BenefitCancelForm(forms.ModelForm):
+
+    class Meta:
+        model = Benefit
+        fields = []
+
+
 class PhotoForm(forms.ModelForm):
 
     class Meta:

@@ -1,10 +1,10 @@
 from django.urls import path
 
 from .views import (
-    BenefitCreate, BenefitList, BenefitUpdate, ContactCreate, ContactDelete, ContactList,
-    ContactUpdate, PhotoCreate, PhotoDelete, PhotoList, ShopApprovalCancel, ShopApprovalCreate,
-    ShopApprovalHistory, ShopApprovalUpdate, ShopApprovalWaitingList, ShopCreate, ShopDetail,
-    ShopList, ShopPdf, ShopUpdate
+    BenefitCancel, BenefitCreate, BenefitDelete, BenefitList, BenefitUpdate, ContactCreate,
+    ContactDelete, ContactList, ContactUpdate, PhotoCreate, PhotoDelete, PhotoList,
+    ShopApprovalCancel, ShopApprovalCreate, ShopApprovalHistory, ShopApprovalUpdate,
+    ShopApprovalWaitingList, ShopCreate, ShopDetail, ShopList, ShopPdf, ShopUpdate
 )
 
 app_name = 'shops'
@@ -26,10 +26,12 @@ urlpatterns = [
     path('<slug>/benefits/', BenefitList.as_view(), name='benefit_list'),
     path('<slug>/benefits/add/', BenefitCreate.as_view(), name='benefit_add'),
     path('<slug>/benefits/<int:pk>/edit/', BenefitUpdate.as_view(), name='benefit_edit'),
+    path('<slug>/benefits/<int:pk>/cancel/', BenefitCancel.as_view(), name='benefit_cancel'),
+    path('<slug>/benefits/<int:pk>/del/', BenefitDelete.as_view(), name='benefit_del'),
     path('<slug>/photos/', PhotoList.as_view(), name='photo_list'),
     path('<slug>/photos/add/', PhotoCreate.as_view(), name='photo_add'),
     path('<slug>/photos/<int:pk>/del/', PhotoDelete.as_view(), name='photo_del'),
     path('<slug>/approvals/', ShopApprovalHistory.as_view(), name='approve_list'),
     path('<slug>/approvals/add/', ShopApprovalCreate.as_view(), name='approve_add'),
-    path('<slug>/approvals/<int:pk>/cacnel/', ShopApprovalCancel.as_view(), name='approve_cancel'),
+    path('<slug>/approvals/<int:pk>/cancel/', ShopApprovalCancel.as_view(), name='approve_cancel'),
 ]
