@@ -59,7 +59,7 @@ class ShopCreate(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['discord_for_payment'] = f'@{self.request.user.username}'
+        initial['discord_for_payment'] = f'@{self.request.user.discord_name}'
         return initial
 
     def get_context_data(self, **kwargs):

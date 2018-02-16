@@ -1,4 +1,5 @@
 from social_core.backends.oauth import BaseOAuth2
+from social_core.storage import UserMixin
 
 
 class DiscordOAuth2(BaseOAuth2):
@@ -12,12 +13,13 @@ class DiscordOAuth2(BaseOAuth2):
 
     def get_user_details(self, response):
         return {
-            'username': '#'.join([response.get('username'),
-                                  response.get('discriminator')]),
+            'username': UserMixin.clean_username(response.get('username')),
             'email': response.get('email'),
             'first_name': '',
             'last_name': '',
             'discord_id': response.get('id'),
+            'discord_name': '#'.join([response.get('username'),
+                                      response.get('discriminator')]),
             'avatar_hash': response.get('avatar'),
         }
 

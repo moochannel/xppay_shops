@@ -21,7 +21,7 @@
           {% if user.avatar_hash %}
           <img class="circle" src="https://cdn.discordapp.com/avatars/{{ user.discord_id }}/{{ user.avatar_hash }}.png">
           {% endif %}
-          <span class="white-text name">{{ user.username }}</span>
+          <span class="white-text name">{{ user.name }}</span>
           <span class="white-text email">{{ user.email }}</span>
         </div>
       </li>
@@ -64,7 +64,7 @@
                 {% if user.avatar_hash %}
                 <img class="circle" src="https://cdn.discordapp.com/avatars/{{ user.discord_id }}/{{ user.avatar_hash }}.png" style="width: 2.5rem; margin-right: 0.5rem; vertical-align: middle;">
                 {% endif %}
-                <div class="right">{{ user.username }}<i class="material-icons right">arrow_drop_down</i></div>
+                <div class="right">{{ user.name }}<i class="material-icons right">arrow_drop_down</i></div>
               </a>
             </li>
             {% else %}

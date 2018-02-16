@@ -11,8 +11,8 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['discord_name']
 
     layout = material.Layout(
-        material.Row('username'), material.Fieldset('デモ版限定機能', material.Row('perm_approval'))
+        material.Row('discord_name'), material.Fieldset('デモ版限定機能', material.Row('perm_approval'))
     )
