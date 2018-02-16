@@ -1,0 +1,19 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load material_form %}
+
+{% block title %}プロフィール編集{% endblock %}
+
+{% block edit_content %}
+<h5>プロフィール編集</h5>
+<form method="POST">
+  {% csrf_token %}
+  {% form %}
+  {% endform %}
+  <div class="right">
+    <button class="btn waves-effect waves-light" type="submit" name="action">送信
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</form>
+{% endblock %}

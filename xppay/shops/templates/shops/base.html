@@ -21,8 +21,8 @@
           {% if user.avatar_hash %}
           <img class="circle" src="https://cdn.discordapp.com/avatars/{{ user.discord_id }}/{{ user.avatar_hash }}.png">
           {% endif %}
-          <span class="white-text name">{{ user.username }}</span></a>
-          <span class="white-text email">{{ user.email }}</span></a>
+          <span class="white-text name">{{ user.username }}</span>
+          <span class="white-text email">{{ user.email }}</span>
         </div>
       </li>
       <li><a href="{% url 'shops:shop_list' %}">店舗</a></li>
@@ -30,6 +30,8 @@
       {% if perms.shops.can_approve %}
       <li><a href="{% url 'shops:approve_waiting' %}">承認待ち</a></li>
       {% endif %}
+      <li><div class="divider"></div></li>
+      <li><a href="{% url 'accounts:profile_edit' %}">プロフィール編集</a></li>
       <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
       {% else %}
       <li><a href="{% url 'social:begin' 'discord' %}">Login with Discord</a></li>
@@ -37,7 +39,7 @@
     </ul>
 
     <ul id="user_menu" class="dropdown-content">
-      <li><a href="#!" class="disabled">{{ user }}</a></li>
+      <li><a href="{% url 'accounts:profile_edit' %}" class="disabled">{{ user }}</a></li>
       <li class="divider"></li>
       <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
     </ul>
