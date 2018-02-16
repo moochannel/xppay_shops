@@ -49,12 +49,6 @@ class Shop(models.Model):
         max_length=100,
         help_text='XPpayでの支払先に使用するDiscordアカウント名を指定します'
     )
-    in_qrcode = models.CharField(
-        verbose_name='QRコード用文字列',
-        max_length=2000,
-        blank=True,
-        help_text='PDF内に表示するQRコードに埋め込む文字列を指定します'
-    )
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -93,8 +87,9 @@ class Shop(models.Model):
             (models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=basis_dt))
         ).order_by('-ends_at', '-starts_at')
 
-    def qrcode_b64(self):
-        return make_qrcode_for_pdf(self.in_qrcode)
+    @cached_property
+    def current_approval(self):
+        return self.approvals(manager='active_objects').first()
 
 
 class WaitForApprovalManager(models.Manager):
@@ -104,6 +99,15 @@ class WaitForApprovalManager(models.Manager):
             models.Q(approved__in=[ShopApproval.REQUESTED, ShopApproval.EXAMINE]),
             models.Q(canceled_at__isnull=True)
         )
+
+
+class ActiveApprovalManager(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            models.Q(approved=ShopApproval.APPROVED),
+            models.Q(canceled_at__isnull=True)
+        ).order_by('-updated_at')
 
 
 class ShopApproval(models.Model):
@@ -136,6 +140,12 @@ class ShopApproval(models.Model):
     approved = models.CharField(
         verbose_name='承認結果', max_length=2, choices=APPROVAL_CHOICES, default=REQUESTED
     )
+    in_qrcode = models.CharField(
+        verbose_name='QRコード用文字列',
+        max_length=2000,
+        blank=True,
+        help_text='PDF内に表示するQRコードに埋め込む文字列を指定します'
+    )
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
     updated_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -149,12 +159,16 @@ class ShopApproval(models.Model):
 
     objects = models.Manager()
     waiting_objects = WaitForApprovalManager()
+    active_objects = ActiveApprovalManager()
 
     def stats(self):
         if self.canceled_at:
             return '取り下げ'
         else:
             return self.get_approved_display()
+
+    def qrcode_b64(self):
+        return make_qrcode_for_pdf(self.in_qrcode)
 
 
 class ContactType(models.Model):

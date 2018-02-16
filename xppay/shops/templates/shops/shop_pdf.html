@@ -68,7 +68,7 @@
       <img src="{% b64encode_image 'shops/xppay_xpchan.png' %}">
     </div>
     <div class="qrcode">
-        <img src="{{ shop.qrcode_b64 }}">
+        <img src="{{ shop.current_approval.qrcode_b64 }}">
     </div>
     <div class="payment_account">
       <p>{{ shop.discord_for_payment }}</p>

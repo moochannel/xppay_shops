@@ -10,7 +10,7 @@ class ShopForm(forms.ModelForm):
         model = Shop
         fields = [
             'area', 'name', 'slug', 'discord_for_payment', 'business_description', 'zipcode',
-            'address1', 'address2', 'map_url', 'in_qrcode'
+            'address1', 'address2', 'map_url'
         ]
         widgets = {
             'business_description': forms.Textarea(attrs={
@@ -58,4 +58,10 @@ class ShopApproveForm(forms.ModelForm):
 
     class Meta:
         model = ShopApproval
-        fields = ['approved']
+        fields = ['approved', 'in_qrcode']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if (cleaned_data.get('approved') == ShopApproval.APPROVED and
+                not (cleaned_data.get('in_qrcode'))):
+            self.add_error('in_qrcode', '承認を選ぶ場合はQRコード用文字列を入力してください')
