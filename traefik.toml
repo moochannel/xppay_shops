@@ -1,0 +1,35 @@
+# debug = true
+# traefikLogsFile = "/var/log/traefik.log"
+# accessLogsFile = "/var/log/access.log"
+logLevel = "INFO"
+InsecureSkipVerify = true
+defaultEntryPoints = ["http", "https"]
+[docker]
+  domain = "xppay.jp"
+  watch = true
+  # swarmmode = true
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+    compress = false
+    [entryPoints.http.redirect]
+      entryPoint = "https"
+  [entryPoints.https]
+    address = ":443"
+    [entryPoints.https.tls]
+[acme]
+  email = "moochannel@gmail.com"
+  storage = "/etc/traefik/acme/acme.json"
+  entryPoint = "https"
+  [acme.httpChallenge]
+    entryPoint = "http"
+  acmeLogging = true
+  # OnHostRule = true
+  # caServer = "https://acme-staging.api.letsencrypt.org/directory"
+  [[acme.domains]]
+    main = "labo.xppay.jp"
+    # sans = ["forum-test.xpcoin.jp"]
+[web]
+  address = ":8080"
+  [web.statistics]
+    RecentErrors = 20

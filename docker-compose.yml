@@ -9,8 +9,6 @@ services:
       - web-media:/usr/src/media
   webserver:
     image: nginx
-    ports:
-      - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - web-assets:/usr/src/static:ro

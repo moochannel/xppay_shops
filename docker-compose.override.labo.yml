@@ -1,0 +1,42 @@
+version: '2.3'
+services:
+  webapp:
+    networks:
+      - webapp-tier
+    labels:
+      - "traefik.enable=false"
+  webserver:
+    networks:
+      - webapp-tier
+      - traefik-tier
+    labels:
+      - "traefik.backend=webserver"
+      - "traefik.frontend.rule=Host:labo.xppay.jp"
+      - "traefik.frontend.passHostHeader=true"
+  proxy:
+    image: traefik:1.5-alpine
+    command:
+      ["-c", "/traefik.toml"]
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - ./traefik.toml:/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - proxy-certs:/etc/traefik/acme
+    networks:
+      - traefik-tier
+    labels:
+      - "traefik.enable=false"
+
+volumes:
+  proxy-certs:
+    driver_opts:
+      type: none
+      device: /var/xppay-demo/certs
+      o: bind
+
+networks:
+  webapp-tier:
+  traefik-tier:
