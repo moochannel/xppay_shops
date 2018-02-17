@@ -2,6 +2,17 @@
 {% load static %}
 
 {% block title %}{{ shop.name }}{% endblock %}
+{% block headcss %}
+<style>
+  .carousel.carousel-slider {
+    height: 50vh;
+  }
+  .carousel-item img {
+    max-height: 50vh;
+    object-fit: contain;
+  }
+</style>
+{% endblock %}
 
 {% block breadcrumbs %}
             <span class="breadcrumb">{{ shop.name }}</span>
@@ -16,14 +27,14 @@
 </div>
 {% endif %}
 
-<div class="carousel carousel-slider" data-indicators="true" style="height: 400px">
+<div class="carousel carousel-slider" data-indicators="true">
   {% for photo in shop.photo_set.all %}
   <div class="carousel-item blue-grey darken-1 center">
-    <img src="{{ photo.carousel.url }}" style="width: auto; object-fit: contain;">
+    <img src="{{ photo.carousel.url }}">
   </div>
   {% empty %}
   <div class="carousel-item blue-grey darken-1 center">
-    <img src="{% static 'shops/xp-man-1.png' %}" style="width: auto; object-fit: contain;">
+    <img src="{% static 'shops/xp-man-1.png' %}">
   </div>
   {% endfor %}
 </div>

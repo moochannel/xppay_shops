@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from imagekit.models import ImageSpecField
-from imagekit.processors import Thumbnail
+from imagekit.processors import ResizeToFit
 
 from shops.utils import make_qrcode_for_pdf
 
@@ -221,12 +221,12 @@ class Photo(models.Model):
         help_text='PCでは画像ファイルをファイルボタンにドラッグすると簡単に指定できます'
     )
     carousel = ImageSpecField(
-        source='origin', processors=[Thumbnail(840, 440)], options={
+        source='origin', processors=[ResizeToFit(1000, 500)], options={
             'quality': 85
         }
     )
     thumbnail = ImageSpecField(
-        source='origin', processors=[Thumbnail(210, 110)], options={
+        source='origin', processors=[ResizeToFit(300, 300)], options={
             'quality': 80
         }
     )

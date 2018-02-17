@@ -15,6 +15,15 @@
   main {
     flex: 1 0 auto;
   }
+  .card-thumbnail {
+    max-height: 300px;
+    object-fit: contain;
+  }
+  .card-image > form > button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
 </style>
 {% endblock %}
 
@@ -29,9 +38,9 @@
       <div class="card-image">
         <form method="POST" action="{% url 'shops:photo_del' slug=shop.slug pk=image.pk %}">
           {% csrf_token %}
-          <button type="submit" class="btn-floating btn-small waves-effect waves-light orange darken-1" style="position: absolute; top: 1rem; right: 1rem;"><i class="material-icons">delete</i></button>
+          <button type="submit" class="btn-floating btn-small waves-effect waves-light orange darken-1"><i class="material-icons">delete</i></button>
         </form>
-        <img src="{{ image.thumbnail.url }}" >
+        <img src="{{ image.thumbnail.url }}" class="card-thumbnail">
       </div>
     </div>
   </div>
