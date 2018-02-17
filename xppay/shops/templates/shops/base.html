@@ -6,8 +6,8 @@
     <title>{% block title %}ページタイトル{% endblock %} - XPpay SHOPS</title>
     {% include 'material/includes/material_css.html' %}
     <script src="{% static 'material/js/jquery.js' %}"></script>
-    {% include 'material/includes/material_js.html' %}
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     {% block headcss %}{% endblock %}
   </head>
 
@@ -92,20 +92,22 @@
     <footer>
       {% block footer %}{% endblock %}
     </footer>
+
+    {% include 'material/includes/material_js.html' %}
+    <script>
+      var sidenav_elem = document.querySelector('.sidenav');
+      var instance = M.Sidenav.init(sidenav_elem, {
+        draggable: true,
+      });
+      var fab_elem = document.querySelector('.fixed-action-btn');
+      if (fab_elem) {
+        var fab_instance = M.FloatingActionButton.init(fab_elem);
+      }
+      var dropdown_menu_elem = document.querySelector('.dropdown-trigger');
+      if (dropdown_menu_elem) {
+        var dropdown_instance = M.Dropdown.init(dropdown_menu_elem);
+      }
+    </script>
+    {% block footjs %}{% endblock %}
   </body>
-  <script>
-    var sidenav_elem = document.querySelector('.sidenav');
-    var instance = M.Sidenav.init(sidenav_elem, {
-      draggable: true,
-    });
-    var fab_elem = document.querySelector('.fixed-action-btn');
-    if (fab_elem) {
-      var fab_instance = M.FloatingActionButton.init(fab_elem);
-    }
-    var dropdown_menu_elem = document.querySelector('.dropdown-trigger');
-    if (dropdown_menu_elem) {
-      var dropdown_instance = M.Dropdown.init(dropdown_menu_elem);
-    }
-  </script>
-  {% block footjs %}{% endblock %}
 </html>
