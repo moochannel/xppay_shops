@@ -2,6 +2,13 @@
 {% load static %}
 
 {% block title %}店舗一覧{% endblock %}
+{% block headcss %}
+<style>
+  .benefits > li:nth-child(even) {
+    background-color: rgba(242, 242, 242, 0.5);
+  }
+</style>
+{% endblock %}
 
 {% block content %}
 <div style="text-align: right;">
@@ -53,7 +60,7 @@
         <div class="card-reveal">
           <span class="card-title">{{ shop.name }}<i class="material-icons right">close</i></span>
           {% if shop.benefits_available %}
-          <ul class="collection with-header">
+          <ul class="benefits collection with-header">
             <li class="collection-header">特典</li>
             {% for benefit in shop.benefits_available %}
             <li class="collection-item">{{ benefit.content }}</li>

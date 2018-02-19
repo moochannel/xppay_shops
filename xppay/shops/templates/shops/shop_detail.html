@@ -11,6 +11,12 @@
     max-height: 50vh;
     object-fit: contain;
   }
+  .benefits > li:nth-child(odd) {
+    background-color: rgba(242, 242, 242, 0.5);
+  }
+  .contacts > div:nth-child(odd) {
+    background-color: rgba(242, 242, 242, 0.5);
+  }
 </style>
 {% endblock %}
 
@@ -57,7 +63,7 @@
 
 {% if object.benefits_available %}
 <h6>特典</h6>
-<ul class="collection with-header">
+<ul class="benefits collection with-header">
   {% for benefit in object.benefits_available %}
   <li class="collection-item">{{ benefit.content }}</li>
   {% endfor %}
@@ -65,22 +71,24 @@
 {% endif %}
 
 <h6>場所・連絡先</h6>
-<table class="striped">
-  <tr>
-    <td class="right">住所</td>
-    <td>
+<div class="contacts collection">
+  <div class="row collection-item">
+    <div class="col s3 m2">住所</div>
+    <div class="col s9 m10">
       〒{{ object.zipcode }}<br>
       {{ object.address1 }} {{ object.address2 }}<br>
       {% if object.map_url %}<a href="{{ object.map_url }}" target="_blank">Google マップで地図を見る</a>{% endif %}
-    </td>
-  </tr>
+    </div>
+  </div>
   {% for contact in object.contact_set.all %}
-  <tr>
-    <td class="right">{{ contact.contact_type.name }}</td>
-    <td>{% if contact.href %}<a href="{{ contact.href }}">{% endif %}{{ contact.label }}{% if contact.href %}</a>{% endif %}</td>
-  </tr>
+  <div class="row collection-item">
+    <div class="col s3 m2">{{ contact.contact_type.name }}</div>
+    <div class="col s9 m10">
+      {% if contact.href %}<a href="{{ contact.href }}">{% endif %}{{ contact.label }}{% if contact.href %}</a>{% endif %}
+    </div>
+  </div>
   {% endfor %}
-</table>
+</div>
 {% endblock %}
 
 {% block footjs %}
