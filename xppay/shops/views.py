@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 )
@@ -89,6 +90,7 @@ class ShopUpdate(UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.updated_by = self.request.user
+        messages.success(self.request, '保存しました')
         return super().form_valid(form)
 
 
