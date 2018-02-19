@@ -7,6 +7,7 @@ RUN \
     chmod +x /usr/src/app/docker-entrypoint.sh
 WORKDIR /usr/src/app/xppay
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
+VOLUME ["/usr/src/media", "/usr/src/static", "/usr/src/db"]
 CMD ["gunicorn", "-k", "gevent", "-w", "3", "--timeout=600", \
     "--bind=0.0.0.0:8000", "--access-logfile=-", "--error-logfile=-", \
     "xppay.wsgi"]

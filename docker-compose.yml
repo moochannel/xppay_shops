@@ -7,6 +7,7 @@ services:
     volumes:
       - web-assets:/usr/src/static
       - web-media:/usr/src/media
+      - web-database:/usr/src/db
   webserver:
     image: nginx
     volumes:
@@ -19,3 +20,4 @@ services:
 volumes:
   web-assets:
   web-media:
+  web-database:
