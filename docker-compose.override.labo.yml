@@ -1,6 +1,10 @@
 version: '2.3'
 services:
   webapp:
+    environment:
+      DISCORD_OAUTH_KEY: ""
+      DISCORD_OAUTH_SECRET: ""
+      DISCORD_REDIRECT_IS_HTTPS: 1
     networks:
       - webapp-tier
     labels:
