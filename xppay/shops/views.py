@@ -74,6 +74,7 @@ class ShopCreate(LoginRequiredMixin, CreateView):
         response = super().form_valid(form)
         emp = Employment(shop=form.instance, staff=self.request.user)
         emp.save()
+        messages.success(self.request, '基本情報を追加しました')
         return response
 
 
@@ -90,7 +91,7 @@ class ShopUpdate(UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.updated_by = self.request.user
-        messages.success(self.request, '保存しました')
+        messages.success(self.request, '基本情報を更新しました')
         return super().form_valid(form)
 
 
@@ -135,6 +136,7 @@ class ContactCreate(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         form.instance.shop = shop
+        messages.success(self.request, '連絡先を追加しました')
         return super().form_valid(form)
 
 
@@ -156,6 +158,10 @@ class ContactUpdate(UserPassesTestMixin, UpdateView):
         context['active_subtab'] = 'contact'
         return context
 
+    def form_valid(self, form):
+        messages.success(self.request, '連絡先を更新しました')
+        return super().form_valid(form)
+
 
 class ContactDelete(UserPassesTestMixin, DeleteView):
     model = Contact
@@ -170,6 +176,10 @@ class ContactDelete(UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('shops:contact_list', kwargs={'slug': self.object.shop.slug})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, '連絡先を削除しました')
+        return super().delete(request, *args, **kwargs)
 
 
 class BenefitList(UserPassesTestMixin, ListView):
@@ -216,6 +226,7 @@ class BenefitCreate(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         form.instance.shop = shop
+        messages.success(self.request, '特典を追加しました')
         return super().form_valid(form)
 
 
@@ -236,6 +247,10 @@ class BenefitUpdate(UserPassesTestMixin, UpdateView):
         context['shop'] = self.shop
         context['active_subtab'] = 'benefit'
         return context
+
+    def form_valid(self, form):
+        messages.success(self.request, '特典を更新しました')
+        return super().form_valid(form)
 
 
 class BenefitCancel(UserPassesTestMixin, UpdateView):
@@ -260,6 +275,7 @@ class BenefitCancel(UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.ends_at = timezone.now()
         form.instance.updated_by = self.request.user
+        messages.success(self.request, '特典を取り下げました')
         return super().form_valid(form)
 
 
@@ -277,6 +293,10 @@ class BenefitDelete(UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('shops:benefit_list', kwargs={'slug': self.object.shop.slug})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, '特典を削除しました')
+        return super().delete(request, *args, **kwargs)
 
 
 class PhotoList(UserPassesTestMixin, CreateView):
@@ -301,6 +321,7 @@ class PhotoList(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
         form.instance.shop = shop
+        messages.success(self.request, '店舗画像を追加しました')
         return super().form_valid(form)
 
 
@@ -317,6 +338,10 @@ class PhotoDelete(UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('shops:photo_list', kwargs={'slug': self.object.shop.slug})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, '店舗画像を削除しました')
+        return super().delete(request, *args, **kwargs)
 
 
 class ShopApprovalWaitingList(PermissionRequiredMixin, ListView):
@@ -368,6 +393,7 @@ class ShopApprovalCreate(UserPassesTestMixin, CreateView):
         form.instance.shop = shop
         form.instance.requested_by = self.request.user
         form.instance.updated_by = self.request.user
+        messages.success(self.request, '承認依頼を追加しました')
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -382,6 +408,7 @@ class ShopApprovalUpdate(PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.updated_by = self.request.user
+        messages.success(self.request, '承認依頼を更新しました')
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -407,6 +434,7 @@ class ShopApprovalCancel(UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.canceled_at = timezone.now()
         form.instance.canceled_by = form.instance.updated_by = self.request.user
+        messages.success(self.request, '承認依頼を取り下げました')
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -437,7 +465,9 @@ class StaffList(UserPassesTestMixin, CreateView):
         form.instance.invited_by = self.request.user
         form.instance.invited_at = timezone.now()
         try:
-            return super().form_valid(form)
+            result = super().form_valid(form)
+            messages.success(self.request, 'スタッフを追加しました')
+            return result
         except IntegrityError as err:
             form.add_error('staff', '既に追加されています')
             return super().form_invalid(form)
@@ -461,3 +491,7 @@ class StaffDelete(UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('shops:staff_list', kwargs={'slug': self.shop.slug})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'スタッフ登録を解除しました')
+        return super().delete(request, *args, **kwargs)
