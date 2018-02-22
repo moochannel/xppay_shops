@@ -1,0 +1,67 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load material_form %}
+
+{% block title %}{{ object.name }}スタッフ招待{% endblock %}
+{% block headcss %}
+<style>
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+  main {
+    flex: 1 0 auto;
+  }
+</style>
+{% endblock %}
+
+{% block edit_content %}
+<h5>{{ object.name }}のスタッフ招待</h5>
+
+<p>
+  スタッフをこの店舗に登録するには、スタッフに下記のURLを開いていただきます。<br>
+  リンクをメールなどで送る、または下記QRコードを読み込むなどの方法で登録対象スタッフへURLをお送りください。
+</p>
+
+<h6>注意</h6>
+<ul class="browser-default">
+  <li>招待URLは1つあたり1回有効です。</li>
+  <li>招待URLの有効期限は48時間です。</li>
+</ul>
+
+<div class="row">
+  <div class="col s12">
+    <form>
+      <div class="col s11">
+        <label for="invitation_url">招待URL</label>
+        <input id="invitation_url" type="text" value="{{ invitation_url }}">
+      </div>
+      <div class="col s1">
+        <a id="invitation_button" class="waves-effect waves-light btn-floating">
+          <i class="material-icons">content_copy</i>
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 center-align">
+    <img src="{{ invitation_qr_bin }}">
+  </div>
+</div>
+{% endblock %}
+
+{% block footjs %}
+<script>
+  var inv_button = document.querySelector('#invitation_button');
+  inv_button.addEventListener('click', function(event) {
+    var inv_box = document.querySelector('#invitation_url');
+    if (inv_box.value) {
+      inv_box.select();
+      document.execCommand('copy');
+      M.toast({html: 'コピーしました'});
+    }
+  });
+</script>
+{% endblock %}

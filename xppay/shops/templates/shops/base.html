@@ -34,7 +34,7 @@
       <li><a href="{% url 'accounts:profile_edit' %}">プロフィール編集</a></li>
       <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
       {% else %}
-      <li><a href="{% url 'social:begin' 'discord' %}">Login with Discord</a></li>
+      <li><a href="{% url 'social:begin' 'discord' %}?next={{ request.path }}">Login with Discord</a></li>
       {% endif %}
     </ul>
 
@@ -70,7 +70,7 @@
               </li>
               {% else %}
               <li>
-                <a href="{% url 'social:begin' 'discord' %}">Login with Discord</a>
+                <a href="{% url 'social:begin' 'discord' %}?next={{ request.path }}">Login with Discord</a>
               </li>
               {% endif %}
             </ul>

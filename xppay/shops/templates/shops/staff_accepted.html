@@ -1,0 +1,49 @@
+{% extends "shops/base_shop_edit.html" %}
+{% load static %}
+{% load material_form %}
+
+{% block title %}{{ object.shop.name }}スタッフ登録{% if user.is_authenticated %}完了{% endif %}{% endblock %}
+
+{% block edit_content %}
+<h5>{{ object.shop.name }}スタッフ登録{% if user.is_authenticated %}完了{% endif %}</h5>
+
+{% if user.is_authenticated %}
+{% if error_message %}
+<div class="row">
+  <div class="col s12">
+    <p>
+      {{ error_message }}
+    </p>
+  </div>
+</div>
+{% else %}
+<div class="row">
+  <div class="col s12">
+    <p>
+      {{ object.shop.name }}へスタッフとして登録されました。<br>
+      同店舗の基本情報や特典などを編集することが可能になります。
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12">
+    <a href="{% url 'shops:shop_edit' slug=object.shop.slug %}" class="waves-effect waves-light btn">店舗情報編集</a>
+  </div>
+</div>
+{% endif %}
+{% else %}
+<div class="row">
+    <div class="col s12">
+      <p>
+        {{ object.shop.name }}へスタッフとして登録するために、Discord経由でログインしてください
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 center-align">
+      <a href="{% url 'social:begin' 'discord' %}?next={{ request.path }}">Login with Discord</a>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

@@ -2,15 +2,16 @@ import base64
 from io import BytesIO
 
 import qrcode
-from PIL import Image
 from django.contrib.staticfiles import finders
+from PIL import Image
 
 
-def make_qrcode_for_pdf(embeded_string):
+def make_qrcode_for_pdf(embeded_string, box_size=10):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
         border=1,
+        box_size=box_size,
     )
     qr.add_data(embeded_string)
     qr.make(fit=True)
@@ -18,7 +19,12 @@ def make_qrcode_for_pdf(embeded_string):
     qr_image = qr.make_image().convert('RGBA')
     logo_path = finders.find('shops/XPpay_on_qrcode.png')
     logo_image = Image.open(logo_path)
-    qr_image.paste(logo_image, (102, 140))
+    qr_image.paste(
+        logo_image, (
+            int((qr_image.width - logo_image.width) / 2),
+            int((qr_image.height - logo_image.height) / 2)
+        )
+    )
 
     return image_to_b64(qr_image)
 

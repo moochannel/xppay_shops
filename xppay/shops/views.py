@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import (
 )
 from django.db import IntegrityError, models
 from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -14,7 +14,10 @@ from .forms import (
     BenefitCancelForm, BenefitForm, ContactForm, PhotoForm, ShopApproveForm,
     ShopApproveRequestForm, ShopForm, StaffForm
 )
-from .models import (Area, Benefit, Contact, Employment, Photo, Shop, ShopApproval)
+from .models import (
+    Area, Benefit, Contact, Employment, Photo, Shop, ShopApproval, StaffInvitation
+)
+from .utils import make_qrcode_for_pdf
 
 
 class ShopList(ListView):
@@ -495,3 +498,60 @@ class StaffDelete(UserPassesTestMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'スタッフ登録を解除しました')
         return super().delete(request, *args, **kwargs)
+
+
+class StaffInvite(UserPassesTestMixin, DetailView):
+    model = Shop
+    template_name = 'shops/staff_invite.html'
+    raise_exception = True
+
+    def test_func(self):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        return can_edit_shop(self, self.shop)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        invitation = self.object.staff_invitations.create(invited_by=self.request.user)
+        invitation.save()
+
+        invitation_url = self.request.build_absolute_uri(
+            reverse(
+                'shops:staff_accept',
+                kwargs={
+                    'slug': invitation.shop.slug,
+                    'token': invitation.token
+                }
+            )
+        )
+        context['invitation_url'] = invitation_url
+        context['invitation_qr_bin'] = make_qrcode_for_pdf(invitation_url, 5)
+        return context
+
+
+class StaffAccept(DetailView):
+    model = StaffInvitation
+    template_name = 'shops/staff_accepted.html'
+
+    def get_object(self, queryset=None):
+        self.shop = get_object_or_404(Shop, slug=self.kwargs['slug'])
+        self.invitation = get_object_or_404(StaffInvitation, token=self.kwargs['token'])
+        self.error_message = None
+        if (self.invitation.accepted_by is not None or self.invitation.accepted_at is not None):
+            self.error_message = 'このトークンは使用済みです'
+        elif self.invitation.expired_at < timezone.now():
+            self.error_message = 'このトークンは使用期限が切れています'
+        elif self.invitation.shop != self.shop:
+            self.error_message = f'このトークンは{self.shop.name}のものではありません'
+        elif self.request.user.is_authenticated:
+            if self.request.user in self.shop.staffs.all():
+                self.error_message = '既にスタッフとして登録されています'
+            else:
+                self.invitation.accept(self.request.user)
+                messages.success(self.request, 'スタッフを追加しました')
+
+        return self.invitation
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['error_message'] = self.error_message
+        return context

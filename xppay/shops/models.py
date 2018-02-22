@@ -1,5 +1,7 @@
+import uuid
+
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -266,3 +268,36 @@ class Employment(models.Model):
 
     def get_absolute_url(self):
         return reverse('shops:staff_list', kwargs={'slug': self.shop.slug})
+
+
+def expires_default():
+    return timezone.now() + timezone.timedelta(days=2)
+
+
+class StaffInvitation(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='staff_invitations')
+    token = models.UUIDField(verbose_name='招待コード', unique=True, default=uuid.uuid4, editable=False)
+    expired_at = models.DateTimeField(verbose_name='有効期限', default=expires_default, editable=False)
+    invited_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name='招待者',
+        on_delete=models.CASCADE,
+        related_name='invites',
+    )
+    invited_at = models.DateTimeField(verbose_name='招待日時', auto_now_add=True)
+    accepted_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name='招待者',
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='accepted_invitations',
+    )
+    accepted_at = models.DateTimeField(verbose_name='招待日時', null=True)
+
+    def accept(self, user):
+        with transaction.atomic():
+            emp = Employment(shop=self.shop, staff=user)
+            emp.save()
+            self.accepted_by = user
+            self.accepted_at = timezone.now()
+            self.save()
