@@ -172,6 +172,10 @@ class ShopApproval(models.Model):
     def qrcode_b64(self):
         return make_qrcode_for_pdf(self.in_qrcode)
 
+    @classmethod
+    def unapproved_count(cls):
+        return cls.waiting_objects.count()
+
 
 class ContactType(models.Model):
     name = models.CharField(max_length=10)

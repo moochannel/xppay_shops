@@ -1,4 +1,5 @@
 {% load static %}
+{% load shop_extras %}
 <!DOCTYPE html>
 <html>
 
@@ -28,7 +29,7 @@
       <li><a href="{% url 'shops:shop_list' %}">店舗</a></li>
       {% if user.is_authenticated %}
       {% if perms.shops.can_approve %}
-      <li><a href="{% url 'shops:approve_waiting' %}">承認待ち</a></li>
+      <li><a href="{% url 'shops:approve_waiting' %}">承認待ち{% unapproved_shops_badge %}</a></li>
       {% endif %}
       <li><div class="divider"></div></li>
       <li><a href="{% url 'accounts:profile_edit' %}">プロフィール編集</a></li>
@@ -51,13 +52,13 @@
             <a href="#" data-target="slide-out" class="sidenav-trigger show-on-med-and-down"><i class="material-icons">menu</i></a>
             <a href="{% url 'shops:shop_list' %}" class="brand-logo">XPpay SHOPS</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li class="active">
+              <li>
                 <a href="{% url 'shops:shop_list' %}">店舗</a>
               </li>
               {% if user.is_authenticated %}
               {% if perms.shops.can_approve %}
               <li>
-                <a href="{% url 'shops:approve_waiting' %}">承認待ち</a>
+                <a href="{% url 'shops:approve_waiting' %}">承認待ち{% unapproved_shops_badge %}</a>
               </li>
               {% endif %}
               <li>
