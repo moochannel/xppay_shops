@@ -10,6 +10,8 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django_weasyprint import WeasyTemplateResponseMixin
 
+from notifications.utils import spam_notify
+
 from .forms import (
     BenefitCancelForm, BenefitForm, ContactForm, PhotoForm, ShopApproveForm,
     ShopApproveRequestForm, ShopForm, StaffForm
@@ -397,7 +399,22 @@ class ShopApprovalCreate(UserPassesTestMixin, CreateView):
         form.instance.requested_by = self.request.user
         form.instance.updated_by = self.request.user
         messages.success(self.request, '承認依頼を追加しました')
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        self.notify(form.instance)
+        return response
+
+    def notify(self, instance):
+        approval_url = self.request.build_absolute_uri(
+            reverse('shops:approve_update', kwargs={
+                'pk': instance.pk
+            })
+        )
+        payload = f'''承認依頼が登録されました。XPpay SHOPSのサイトで店舗情報をご確認の上、承認してください。
+店舗名: {instance.shop.name}
+承認依頼URL: {approval_url}
+'''
+
+        spam_notify(payload)
 
     def get_success_url(self):
         return reverse_lazy('shops:approve_list', kwargs={'slug': self.object.shop.slug})

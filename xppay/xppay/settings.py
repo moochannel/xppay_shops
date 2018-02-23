@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'accounts.apps.AccountsConfig',
     'shops.apps.ShopsConfig',
+    'notifications.apps.NotificationsConfig',
 ]
 
 MIDDLEWARE = [
