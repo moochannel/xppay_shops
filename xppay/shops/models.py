@@ -158,6 +158,9 @@ class ShopApproval(models.Model):
 
     class Meta:
         permissions = (('can_approve', 'Can approve shop'),)
+        indexes = [
+            models.Index(fields=['approved']),
+        ]
 
     objects = models.Manager()
     waiting_objects = WaitForApprovalManager()
