@@ -85,7 +85,7 @@
     requested_at: "2017-02-01 00:00:00+0900"
     requested_by: 1
     approved: AP
-    in_qrcode: 'https://discord.gg/TUScvEu'
+    xppay_channel_url: 'https://discord.gg/z2wHVs'
     updated_at: "2017-02-01 00:00:00+0900"
     updated_by: 1
 
@@ -149,7 +149,7 @@
     requested_at: "2017-02-01 00:00:00+0900"
     requested_by: 1
     approved: AP
-    in_qrcode: 'https://discord.gg/TUScvEu'
+    xppay_channel_url: 'https://discord.gg/X4f2uak'
     updated_at: "2017-02-01 00:00:00+0900"
     updated_by: 1
 
@@ -207,7 +207,6 @@
     requested_at: "2017-02-01 00:00:00+0900"
     requested_by: 1
     approved: EX
-    in_qrcode: 'https://discord.gg/TUScvEu'
+    xppay_channel_url: 'https://discord.gg/r3jEu4b'
     updated_at: "2017-02-01 00:00:00+0900"
     updated_by: 1
-  

@@ -142,11 +142,11 @@ class ShopApproval(models.Model):
     approved = models.CharField(
         verbose_name='承認結果', max_length=2, choices=APPROVAL_CHOICES, default=REQUESTED
     )
-    in_qrcode = models.CharField(
-        verbose_name='QRコード用文字列',
+    xppay_channel_url = models.URLField(
+        verbose_name='XPpayの店舗チャンネルURL',
         max_length=2000,
         blank=True,
-        help_text='PDF内に表示するQRコードに埋め込む文字列を指定します'
+        help_text='無期限のチャンネル招待リンクを入力します',
     )
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
     updated_by = models.ForeignKey(
@@ -173,7 +173,7 @@ class ShopApproval(models.Model):
             return self.get_approved_display()
 
     def qrcode_b64(self):
-        return make_qrcode_for_pdf(self.in_qrcode)
+        return make_qrcode_for_pdf(self.xppay_channel_url)
 
     @classmethod
     def unapproved_count(cls):

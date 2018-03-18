@@ -66,7 +66,7 @@
   <div class="col s12">
     <p>Discord内で支払いコマンドを貼り付けて実行してください</p>
     <div style="text-align: center;">
-      <a href="{{ object.current_approval.in_qrcode|safe }}" class="waves-effect waves-light btn discord discord-icon">
+      <a href="{{ object.current_approval.xppay_channel_url|safe }}" class="waves-effect waves-light btn discord discord-icon">
         XPpayのDiscordへ移動します
       </a>
     </div>
