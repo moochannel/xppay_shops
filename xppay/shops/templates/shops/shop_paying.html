@@ -1,0 +1,116 @@
+{% extends "shops/base.html" %}
+{% load static %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block breadcrumbs %}
+            <span class="breadcrumb">{{ object.name }}</span>
+{% endblock %}
+
+{% block content %}
+<h4>{{ object.name }}でXP支払いをしましょう!</h4>
+
+{% if object.benefits_available %}
+<h5>その前に… 特典をご確認ください!</h5>
+<ul class="benefits collection with-header">
+  {% for benefit in object.benefits_available %}
+  <li class="collection-item">{{ benefit.content }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<h5>ステップ1 支払い金額を計算します</h5>
+<div class="row">
+  <form action="#" class="col s12">
+    <div class="row">
+      <p>現在のXP/JPYレートは、1XP=<span id="xpjpy-rate"></span>です。</p>
+      <div class="col s6">
+        <div class="input-field inline">
+          <input type="text" id="jpy" class="validate">
+          <label for="jpy">日本円</label>
+        </div>
+        円
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s6">
+        <div class="input-field inline">
+          <input type="text" id="xp" class="validate">
+          <label for="xp">XP</label>
+        </div>
+        XP
+      </div>
+    </div>
+  </form>
+</div>
+
+<h5>ステップ2 支払いコマンドをコピーします</h5>
+<div class="row">
+  <form action="#" class="col s12">
+    <div class="row">
+      <p>テキストボックスの文字列をコピーしてください</p>
+      <div class="input-field col s9">
+        <input type="text" id="payment_phrase" class="validate">
+      </div>
+      <div class="col s3">
+        <a id="copy_phrase" class="waves-effect waves-light btn-floating">
+          <i class="material-icons">content_copy</i>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<h5>ステップ3 XPpayのDiscordへ移動し、支払いコマンドを実行します</h5>
+<div class="row">
+  <div class="col s12">
+    <p>Discord内で支払いコマンドを貼り付けて実行してください</p>
+    <div style="text-align: center;">
+      <a href="{{ object.current_approval.in_qrcode|safe }}" class="waves-effect waves-light btn discord discord-icon">
+        XPpayのDiscordへ移動します
+      </a>
+    </div>
+  </div>
+</div>
+
+{% block footjs %}
+<script>
+  let xpJpyRate = null
+  let rateLastUpdated = null
+  $.getJSON({
+    url: '{% url "payments:xpjpy_rate" %}',
+  })
+    .done(function(data) {
+      const rateData = data[0]
+      xpJpyRate = rateData.price_jpy
+      rateLastUpdated = rateData.last_updated
+      $('#xpjpy-rate').text(xpJpyRate)
+    })
+  $('#jpy').on('change', function() {
+    const jpy = parseFloat($('#jpy').val())
+    $('#xp').val((jpy / xpJpyRate).toFixed(10))
+    fillPaymentPhrase()
+  })
+  $('#xp').on('change', function() {
+    const xp = parseFloat($('#xp').val())
+    $('#xp').val(xp.toFixed(10))
+    $('#jpy').val((xp * xpJpyRate).toFixed(10))
+    fillPaymentPhrase()
+  })
+
+  function fillPaymentPhrase() {
+    $('#payment_phrase').val(',tip {{ shop.discord_for_payment }} ' + $('#xp').val())
+  }
+
+  var copy_button = document.querySelector('#copy_phrase');
+  copy_button.addEventListener('click', function(event) {
+    var phrase_box = document.querySelector('#payment_phrase');
+    if (phrase_box.value) {
+      phrase_box.select();
+      document.execCommand('copy');
+      M.toast({html: 'コピーしました'});
+    }
+  });
+</script>
+{% endblock %}
+{% endblock %}

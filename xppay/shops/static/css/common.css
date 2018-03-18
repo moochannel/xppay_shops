@@ -1,0 +1,13 @@
+.discord {
+    background-color: #7289DA;
+    color: #fff;
+}
+
+.discord-icon {
+    background-image: url('/static/shops/Discord-Logo-White.png');
+    background-size: contain;
+    background-position-x: 0.5rem;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    padding-left: 3rem;
+}
