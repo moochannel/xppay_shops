@@ -50,6 +50,11 @@
 <h6>XPpay支払先Discordアカウント</h6>
 <ul class="collection">
   <li class="collection-item">
+    <a href="{% url 'shops:shop_paying' slug=object.slug %}" class="btn waves-effect waves-light orange darken-3">
+      <i class="material-icons left">shopping_cart</i>このお店でXP支払いをします!
+    </a>
+  </li>
+  <li class="collection-item">
     <div class="valign-wrapper">
       <img src="{% static 'shops/XPpay_logo_39x50.png' %}">
       <span style="margin-left: 1rem;">{{ shop.discord_for_payment }}</span>

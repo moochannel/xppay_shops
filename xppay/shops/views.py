@@ -105,6 +105,16 @@ class ShopPdf(WeasyTemplateResponseMixin, DetailView):
     template_name = 'shops/shop_pdf.html'
 
 
+class ShopPaying(DetailView):
+    model = Shop
+    template_name = 'shops/shop_paying.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['can_edit_shop'] = can_edit_shop(self)
+        return context
+
+
 class ContactList(UserPassesTestMixin, ListView):
     model = Contact
     raise_exception = True

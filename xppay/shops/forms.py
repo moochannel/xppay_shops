@@ -65,13 +65,13 @@ class ShopApproveForm(forms.ModelForm):
 
     class Meta:
         model = ShopApproval
-        fields = ['approved', 'in_qrcode']
+        fields = ['approved', 'xppay_channel_url']
 
     def clean(self):
         cleaned_data = super().clean()
         if (cleaned_data.get('approved') == ShopApproval.APPROVED and
-                not (cleaned_data.get('in_qrcode'))):
-            self.add_error('in_qrcode', '承認を選ぶ場合はQRコード用文字列を入力してください')
+                not (cleaned_data.get('xppay_channel_url'))):
+            self.add_error('xppay_channel_url', '承認を選ぶ場合はQRコード用文字列を入力してください')
 
 
 class StaffForm(forms.ModelForm):

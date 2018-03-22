@@ -23,6 +23,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/shops/'), name='root'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('payments/', include('payments.urls')),
     path('shops/', include('shops.urls')),
     path('', include('social_django.urls', namespace='social')),
 ]

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'shops.apps.ShopsConfig',
     'notifications.apps.NotificationsConfig',
+    'payments.apps.PaymentsConfig',
 ]
 
 MIDDLEWARE = [
