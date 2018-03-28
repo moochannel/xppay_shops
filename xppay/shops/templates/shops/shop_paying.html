@@ -1,4 +1,4 @@
-{% extends "shops/base.html" %}
+{% extends "common/site_base.html" %}
 {% load static %}
 
 {% block title %}{{ object.name }}{% endblock %}
@@ -73,7 +73,7 @@
   </div>
 </div>
 
-{% block footjs %}
+{% block content_foot_js %}
 <script>
   let xpJpyRate = null
   let rateLastUpdated = null
