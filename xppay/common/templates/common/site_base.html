@@ -96,10 +96,31 @@
     </footer>
     <footer class="page-footer">
       <div class="container">
-        {% block footer %}{% endblock %}
-        <div class="right">Copyright 2018 XP-JP</div>
+        <div class="row">
+          <div class="col s12">
+            <h5>XPpay SHOPS</h5>
+          </div>
+        </div>
+        <div class="row foot-links">
+          <div class="col s12 m2">
+            <a href="{% url 'payments:about_xppay' %}" class="grey-text text-lighten-3">XPpayって何?</a>
+          </div>
+          <div class="col s12 m3">
+            <a href="{% url 'payments:about_site' %}" class="grey-text text-lighten-3">XPpay SHOPSって何?</a>
+          </div>
+          <div class="col s12 m4">
+            <a href="{% url 'payments:howto_register' %}" class="grey-text text-lighten-3">XPpay利用ご希望の店舗様へ</a>
+          </div>
+        </div>
       </div>
-    </footer>
+      <div class="footer-copyright">
+        <div class="container">
+          <div class="grey-text text-lighten-4 right">
+            Copyright 2018 <a href="https://experience-points.jp/" target="_blank">XP-JP</a>
+          </div>
+        </div>
+      </div>
+  </footer>
 
     {% if messages %}
     <ul class="server_messages hide">

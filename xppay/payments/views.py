@@ -2,6 +2,7 @@ import json
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 from .models import XpJpyRate
 
@@ -15,3 +16,15 @@ def xp2jpy_rate(request):
     rate = []
     rate.append(rate_dict)
     return HttpResponse(json.dumps(rate, cls=DjangoJSONEncoder), content_type='application/json')
+
+
+class AboutPayView(TemplateView):
+    template_name = 'about/xppay.html'
+
+
+class AboutSiteView(TemplateView):
+    template_name = 'about/site.html'
+
+
+class HowtoRegisterView(TemplateView):
+    template_name = 'about/howto_register.html'

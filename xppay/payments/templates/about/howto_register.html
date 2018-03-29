@@ -1,0 +1,66 @@
+{% extends "common/site_base.html" %}
+{% load static %}
+
+{% block title %}XPpay利用登録方法{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12">
+    <h5>XPpayおよびXPpay SHOPS利用登録方法(店舗様向け)</h5>
+    <p>XPpay SHOPS(以下当サイト)では、XPpayおよびXPpay SHOPS利用を申請する機能を用意しています。</p>
+  </div>
+  <div class="col s12">
+    <h6>PC版</h6>
+    <ul class="collapsible">
+      <li>
+        <div class="collapsible-header">1. XPpay SHOPSにDiscordアカウントでログインします</div>
+        <div class="collapsible-body">
+          <p><img width="50%" src="{% static 'payments/register-pc-001.png' %}"></p>
+          <p>各ページの右上部にある<strong>Login with Discord</strong>のリンクからDiscordアカウントでログインできます。</p>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header">2. 店舗一覧ページにある<strong>+ボタン</strong>から店舗追加ページへ進みます</div>
+        <div class="collapsible-body">
+          <p><img width="50%" src="{% static 'payments/register-pc-002.png' %}"></p>
+          <p><strong>店舗一覧ページ</strong>を表示し、右下部に現れる<strong>+ボタン</strong>をクリックします。</p>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header">3. 店舗情報、連絡先などを登録します</div>
+        <div class="collapsible-body">
+          <p><img width="50%" src="{% static 'payments/register-pc-003.png' %}"></p>
+          <ol class="browser-default">
+            <li><strong>店舗追加ページ</strong>が表示されます。</li>
+            <li>必要事項を入力の上、送信します。</li>
+            <li>連絡先や特典も同様に登録します。</li>
+          </ol>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header">4. 承認申請をします</div>
+        <div class="collapsible-body">
+          <p><img width="50%" src="{% static 'payments/register-pc-004.png' %}"></p>
+          <ol class="browser-default">
+            <li>店舗編集メニューにある承認サブメニューから承認一覧ページを表示します。</li>
+            <li>承認一覧ページ右下部に現れる送信ボタンから承認申請ページ(画像)を表示します。</li>
+            <li>申請内容をご確認の上、送信ボタンを押します。</li>
+          </ol>
+          <p>以上で手続きは終了となります。XPpay管理者により承認審査やDiscordのXPpayサーバに店舗用チャンネルの設置作業が完了するとXPpayおよびXPpay SHOPSサイトが利用可能となりますのでお待ちください。</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col s12">
+    <h6>スマートフォン版</h6>
+    <p>(WIP)</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block content_foot_js %}
+<script>
+  var elem = document.querySelector('.collapsible');
+  var instance = M.Collapsible.init(elem, {});
+</script>
+{% endblock %}

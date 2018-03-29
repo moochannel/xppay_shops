@@ -21,3 +21,7 @@ main {
     background-repeat: no-repeat;
     padding-left: 3rem;
 }
+
+.foot-links>div {
+    border-left: solid 1px #999;
+}

@@ -1,0 +1,34 @@
+{% extends "common/site_base.html" %}
+{% load static %}
+
+{% block title %}XPpay SHOPSって何?{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12">
+    <h5>XPpay SHOPSって何?</h5>
+    <p>XPpay SHOPSは、<a href="{% url 'payments:about_xppay' %}">XPpay</a>をより利用しやすくし、発展することを目的としたサービスです。</p>
+    <p><img width="100%" src="{% static 'payments/xppay-shops-1.png' %}"></p>
+  </div>
+  <div class="col s12 m6">
+    <h6>店舗利用のお客様</h6>
+    <ul class="browser-default">
+      <li>XPpayで支払いできる店舗を探すことができます。</li>
+      <li>XPpayで支払うことで得られる特典を見ることができます。</li>
+      <li>DiscordでXPpayを行うための<code>,tipコマンド</code>を生成し、コピーすることができます。</li>
+      <li>DiscordのXPpayサーバにある店舗ごとのチャンネルへのリンクがあるので、<code>,tipコマンド</code>をコピーした状態でDiscordへ移動するとXPpayがスムーズにできます。</li>
+      <li>XPpayでの支払いをするだけであれば、XPpay SHOPSでログインする必要はありません。</li>
+    </ul>
+  </div>
+  <div class="col s12 m6">
+    <h6>店舗様</h6>
+    <ul class="browser-default">
+      <li>XPpayできる店舗であることをDiscordの外にも知らせることができます。</li>
+      <li>店舗掲示用のQRコード付きポスターをPDFでダウンロードすることができます。</li>
+      <li>特典については内容や期間を自由に設定できます。</li>
+      <li><code>,tipコマンド</code>生成機能を使うことで、コマンド手打ちよりもミスを減らすことができます。</li>
+      <li>XPpay SHOPS掲載ご希望の店舗様は、ページ上部(PC)または左からスワイプインで表示されるメニュー(スマートフォン)にある<code>Login with Discord</code>からログインし、店舗登録を開始してください。</code></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
