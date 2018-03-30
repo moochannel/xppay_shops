@@ -8,6 +8,10 @@ services:
       - web-assets:/usr/src/static
       - web-media:/usr/src/media
       - web-database:/usr/src/db
+    environment:
+      DISCORD_OAUTH_KEY:
+      DISCORD_OAUTH_SECRET:
+      DISCORD_REDIRECT_IS_HTTPS:
   webserver:
     image: nginx
     volumes:
