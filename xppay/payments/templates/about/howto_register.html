@@ -16,14 +16,14 @@
         <div class="collapsible-header">1. XPpay SHOPSにDiscordアカウントでログインします</div>
         <div class="collapsible-body">
           <p><img width="50%" src="{% static 'payments/register-pc-001.png' %}"></p>
-          <p>各ページの右上部にある<strong>Login with Discord</strong>のリンクからDiscordアカウントでログインできます。</p>
+          <p>各ページの右上部にある<span class="teal lighten-3">Login with Discord</span>のリンクからDiscordアカウントでログインできます。</p>
         </div>
       </li>
       <li>
-        <div class="collapsible-header">2. 店舗一覧ページにある<strong>+ボタン</strong>から店舗追加ページへ進みます</div>
+        <div class="collapsible-header">2. 店舗一覧ページにある+ボタンから店舗追加ページへ進みます</div>
         <div class="collapsible-body">
           <p><img width="50%" src="{% static 'payments/register-pc-002.png' %}"></p>
-          <p><strong>店舗一覧ページ</strong>を表示し、右下部に現れる<strong>+ボタン</strong>をクリックします。</p>
+          <p><span class="teal lighten-3">店舗一覧ページ</span>を表示し、右下部に現れる<span class="teal lighten-3">+ボタン</span>をクリックします。</p>
         </div>
       </li>
       <li>
@@ -31,7 +31,7 @@
         <div class="collapsible-body">
           <p><img width="50%" src="{% static 'payments/register-pc-003.png' %}"></p>
           <ol class="browser-default">
-            <li><strong>店舗追加ページ</strong>が表示されます。</li>
+            <li><span class="teal lighten-3">店舗追加ページ</span>が表示されます。</li>
             <li>必要事項を入力の上、送信します。</li>
             <li>連絡先や特典も同様に登録します。</li>
           </ol>
@@ -53,14 +53,85 @@
   </div>
   <div class="col s12">
     <h6>スマートフォン版</h6>
-    <p>(WIP)</p>
+    <ul class="collapsible">
+      <li>
+        <div class="collapsible-header">1. XPpay SHOPSにDiscordアカウントでログインします</div>
+        <div class="collapsible-body">
+          <div class="row">
+            <div class="col s4">
+              <img class="responsive-img" src="{% static 'payments/register-smp-001.png' %}">
+            </div>
+            <div class="col s8">
+              各ページ左上にあるメニューボタンをタップ、または画面左からのスワイプインでメニューを表示します。
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s4">
+              <img class="responsive-img" src="{% static 'payments/register-smp-002.png' %}">
+            </div>
+            <div class="col s8">
+              メニューにある<span class="teal lighten-3">Login with Discord</span>のリンクからDiscordアカウントでログインできます。
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header">2. 店舗一覧ページにある+ボタンから店舗追加ページへ進みます</div>
+        <div class="collapsible-body">
+          <div class="row">
+            <div class="col s4">
+              <img class="responsive-img" src="{% static 'payments/register-smp-003.png' %}">
+            </div>
+            <div class="col s8">
+              <span class="teal lighten-3">店舗一覧ページ</span>を表示し、右下部に現れる<span class="teal lighten-3">+ボタン</span>をクリックします。
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header">3. 店舗情報、連絡先などを登録します</div>
+        <div class="collapsible-body">
+          <div class="row">
+            <div class="col s4">
+              <img class="responsive-img" src="{% static 'payments/register-smp-004.png' %}">
+            </div>
+            <div class="col s8">
+              <ol class="browser-default">
+                <li><span class="teal lighten-3">店舗追加ページ</span>が表示されます。</li>
+                <li>必要事項を入力の上、送信します。</li>
+                <li>連絡先や特典も同様に登録します。</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header">4. 承認申請をします</div>
+        <div class="collapsible-body">
+          <div class="row">
+            <div class="col s4">
+              <img class="responsive-img" src="{% static 'payments/register-smp-005.png' %}">
+            </div>
+            <div class="col s8">
+              <ol class="browser-default">
+                <li>店舗編集メニューにある承認サブメニューから承認一覧ページを表示します。</li>
+                <li>承認一覧ページ右下部に現れる送信ボタンから承認申請ページ(画像)を表示します。</li>
+                <li>申請内容をご確認の上、送信ボタンを押します。</li>
+              </ol>
+            </div>
+          </div>
+          <p>以上で手続きは終了となります。XPpay管理者により承認審査やDiscordのXPpayサーバに店舗用チャンネルの設置作業が完了するとXPpayおよびXPpay SHOPSサイトが利用可能となりますのでお待ちください。</p>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>
 {% endblock %}
 
 {% block content_foot_js %}
 <script>
-  var elem = document.querySelector('.collapsible');
-  var instance = M.Collapsible.init(elem, {});
+  for (const elem of document.querySelectorAll('.collapsible')) {
+    var instance = M.Collapsible.init(elem, {});
+  }
 </script>
 {% endblock %}
