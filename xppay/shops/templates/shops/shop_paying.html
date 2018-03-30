@@ -23,7 +23,10 @@
 <div class="row">
   <form action="#" class="col s12">
     <div class="row">
-      <p>現在のXP/JPYレートは、1XP=<span id="xpjpy-rate"></span>です。</p>
+      <p>
+        現在のXP/JPYレートは、1XP=<span id="xpjpy-rate"></span>円
+        (最終更新:<span id="xpjpy-rate-on"></span>)です。
+      </p>
       <div class="col s6">
         <div class="input-field inline">
           <input type="text" id="jpy" class="validate">
@@ -49,11 +52,23 @@
   <form action="#" class="col s12">
     <div class="row">
       <p>テキストボックスの文字列をコピーしてください</p>
+      <p><label for="payment_phrase">(通常版)</label></p>
       <div class="input-field col s9">
         <input type="text" id="payment_phrase" class="validate">
       </div>
       <div class="col s3">
         <a id="copy_phrase" class="waves-effect waves-light btn-floating">
+          <i class="material-icons">content_copy</i>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <p><label for="payment_phrase_simple">(コメントなし版)</label></p>
+      <div class="input-field col s9">
+        <input type="text" id="payment_phrase_simple" class="validate">
+      </div>
+      <div class="col s3">
+        <a id="copy_phrase_simple" class="waves-effect waves-light btn-floating">
           <i class="material-icons">content_copy</i>
         </a>
       </div>
@@ -84,8 +99,14 @@
     .done(function(data) {
       const rateData = data[0]
       xpJpyRate = rateData.price_jpy
-      rateLastUpdated = rateData.last_updated
+      const lastUpdated = new Date(rateData.last_updated)
+      const formatOptions = {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric'
+      }
+      rateLastUpdated = new Intl.DateTimeFormat('ja-JP', formatOptions).format(lastUpdated)
       $('#xpjpy-rate').text(xpJpyRate)
+      $('#xpjpy-rate-on').text(rateLastUpdated)
     })
   $('#jpy').on('change', function() {
     const jpy = parseFloat($('#jpy').val())
@@ -100,14 +121,28 @@
   })
 
   function fillPaymentPhrase() {
-    $('#payment_phrase').val(',tip {{ shop.discord_for_payment }} ' + $('#xp').val())
+    const tipCommand = ',tip {{ shop.discord_for_payment }} ' + $('#xp').val()
+    $('#payment_phrase').val(
+      tipCommand + ' (CMC参考価格 1XP=' + xpJpyRate + '円/最終更新: ' + rateLastUpdated +')'
+    )
+    $('#payment_phrase_simple').val(tipCommand)
   }
 
-  var copy_button = document.querySelector('#copy_phrase');
-  copy_button.addEventListener('click', function(event) {
-    var phrase_box = document.querySelector('#payment_phrase');
-    if (phrase_box.value) {
-      phrase_box.select();
+  var copyButton = document.querySelector('#copy_phrase');
+  copyButton.addEventListener('click', function(event) {
+    var phraseBox = document.querySelector('#payment_phrase');
+    if (phraseBox.value) {
+      phraseBox.select();
+      document.execCommand('copy');
+      M.toast({html: 'コピーしました'});
+    }
+  });
+
+  var copyButtonSimple = document.querySelector('#copy_phrase_simple');
+  copyButtonSimple.addEventListener('click', function(event) {
+    var phraseBoxSimple = document.querySelector('#payment_phrase_simple');
+    if (phraseBoxSimple.value) {
+      phraseBoxSimple.select();
       document.execCommand('copy');
       M.toast({html: 'コピーしました'});
     }
