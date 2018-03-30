@@ -3,18 +3,6 @@
 {% load material_form %}
 
 {% block title %}{{ object.name }}スタッフ招待{% endblock %}
-{% block headcss %}
-<style>
-  body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  main {
-    flex: 1 0 auto;
-  }
-</style>
-{% endblock %}
 
 {% block edit_content %}
 <h5>{{ object.name }}のスタッフ招待</h5>
@@ -52,7 +40,7 @@
 </div>
 {% endblock %}
 
-{% block footjs %}
+{% block content_foot_js %}
 <script>
   var inv_button = document.querySelector('#invitation_button');
   inv_button.addEventListener('click', function(event) {

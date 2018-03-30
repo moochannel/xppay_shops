@@ -1,4 +1,4 @@
-{% extends "shops/base.html" %}
+{% extends "common/site_base.html" %}
 {% load static %}
 
 {% block breadcrumbs %}
@@ -39,7 +39,7 @@
 {% block edit_content %}{% endblock %}
 {% endblock %}
 
-{% block foot_layer2_js %}
+{% block site_foot_js %}
 <script>
   var tab_elem = document.querySelector('ul.tabs');
   if (tab_elem) {

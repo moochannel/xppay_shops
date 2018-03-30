@@ -3,18 +3,6 @@
 {% load material_form %}
 
 {% block title %}{{ shop.name }}スタッフ一覧{% endblock %}
-{% block headcss %}
-<style>
-  body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  main {
-    flex: 1 0 auto;
-  }
-</style>
-{% endblock %}
 
 {% block edit_content %}
 <h5>{{ shop.name }}のスタッフ</h5>

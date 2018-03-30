@@ -1,4 +1,4 @@
-{% extends "shops/base.html" %}
+{% extends "common/site_base.html" %}
 {% load static %}
 
 {% block title %}{{ shop.name }}{% endblock %}
@@ -96,7 +96,7 @@
 </div>
 {% endblock %}
 
-{% block footjs %}
+{% block content_foot_js %}
 <script>
   var elem = document.querySelector('.carousel.carousel-slider');
   var instance = M.Carousel.init(elem, {

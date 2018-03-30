@@ -1,3 +1,13 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
 .discord {
     background-color: #7289DA;
     color: #fff;
@@ -10,4 +20,8 @@
     background-position-y: center;
     background-repeat: no-repeat;
     padding-left: 3rem;
+}
+
+.foot-links>div {
+    border-left: solid 1px #999;
 }

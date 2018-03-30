@@ -7,14 +7,6 @@
 {% block title %}{{ shop.name }}画像一覧{% endblock %}
 {% block headcss %}
 <style>
-  body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  main {
-    flex: 1 0 auto;
-  }
   .card-thumbnail {
     max-height: 300px;
     object-fit: contain;
@@ -51,21 +43,19 @@
 {% endif %}
 {% endblock %}
 
-{% block footer %}
-<div class="container">
-  <div class="row">
-    <div class="col s12">
-      <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% form %}
-        {% endform %}
-        <div class="right">
-          <button class="btn waves-effect waves-light" type="submit" name="action">送信
-            <i class="material-icons right">send</i>
-          </button>
-        </div>
-      </form>
-    </div>
+{% block content_bottom %}
+<div class="row">
+  <div class="col s12">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% form %}
+      {% endform %}
+      <div class="right">
+        <button class="btn waves-effect waves-light" type="submit" name="action">送信
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 {% endblock %}
