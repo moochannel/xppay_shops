@@ -8,3 +8,4 @@ django-weasyprint
 qrcode
 gunicorn
 gevent
+mysqlclient

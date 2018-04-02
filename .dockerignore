@@ -5,3 +5,5 @@
 Dockerfile
 xppay/settings_development.py
 **/media/
+docker-compose*
+support/
