@@ -22,6 +22,7 @@ greenlet==0.4.13          # via gevent
 gunicorn==19.7.1
 html5lib==1.0.1           # via weasyprint
 idna==2.6                 # via requests
+mysqlclient==1.3.12
 oauthlib==2.0.7           # via requests-oauthlib, social-auth-core
 pdfrw==0.4                # via weasyprint
 pilkit==2.0               # via django-imagekit

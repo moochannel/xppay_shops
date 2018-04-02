@@ -2,21 +2,26 @@ version: '2.3'
 services:
   webapp:
     environment:
-      DISCORD_OAUTH_KEY: ""
-      DISCORD_OAUTH_SECRET: ""
+      DISCORD_OAUTH_KEY:
+      DISCORD_OAUTH_SECRET:
       DISCORD_REDIRECT_IS_HTTPS: 1
+      DB_NAME:
+      DB_USER:
+      DB_PASSWORD:
     networks:
-      - webapp-tier
+      - front-tier
+      - backend-tier
     labels:
-      - "traefik.enable=false"
+      traefik.enable: "false"
   webserver:
     networks:
-      - webapp-tier
+      - front-tier
       - traefik-tier
     labels:
-      - "traefik.backend=webserver"
-      - "traefik.frontend.rule=Host:labo.xppay.jp"
-      - "traefik.frontend.passHostHeader=true"
+      traefik.docker.network: xppayshops_traefik-tier
+      traefik.port: 80
+      traefik.frontend.rule: Host:labo.xppay.jp
+      traefik.frontend.passHostHeader: "true"
   proxy:
     image: traefik:1.5-alpine
     command:
@@ -26,21 +31,42 @@ services:
       - 443:443
       - 8080:8080
     volumes:
-      - ./traefik.toml:/traefik.toml
+      - ./support/docker/traefik/traefik.toml:/traefik.toml
       - /var/run/docker.sock:/var/run/docker.sock
       - proxy-certs:/etc/traefik/acme
     networks:
       - traefik-tier
     labels:
-      - "traefik.enable=false"
+      traefik.enable: "false"
+  database:
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+    networks:
+      - backend-tier
+    labels:
+      traefik.enable: "false"
 
 volumes:
+  web-media:
+    driver_opts:
+      type: none
+      device: /var/xppay-demo/media
+      o: bind
   proxy-certs:
     driver_opts:
       type: none
       device: /var/xppay-demo/certs
       o: bind
+  db-data:
+    driver_opts:
+      type: none
+      device: /var/xppay-demo/mariadb
+      o: bind
 
 networks:
-  webapp-tier:
+  front-tier:
   traefik-tier:
+  backend-tier:
