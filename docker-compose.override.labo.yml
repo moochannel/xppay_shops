@@ -12,15 +12,16 @@ services:
       - front-tier
       - backend-tier
     labels:
-      - "traefik.enable=false"
+      traefik.enable: "false"
   webserver:
     networks:
       - front-tier
       - traefik-tier
     labels:
-      - "traefik.backend=webserver"
-      - "traefik.frontend.rule=Host:labo.xppay.jp"
-      - "traefik.frontend.passHostHeader=true"
+      traefik.docker.network: xppayshops_traefik-tier
+      traefik.port: 80
+      traefik.frontend.rule: Host:labo.xppay.jp
+      traefik.frontend.passHostHeader: "true"
   proxy:
     image: traefik:1.5-alpine
     command:
@@ -36,7 +37,7 @@ services:
     networks:
       - traefik-tier
     labels:
-      - "traefik.enable=false"
+      traefik.enable: "false"
   database:
     environment:
       MYSQL_ROOT_PASSWORD:
@@ -46,7 +47,7 @@ services:
     networks:
       - backend-tier
     labels:
-      - "traefik.enable=false"
+      traefik.enable: "false"
 
 volumes:
   web-media:
